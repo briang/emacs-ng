@@ -1,0 +1,4 @@
+# -*- shell-script -*-
+
+alias e=emacs
+alias ee="emacs --init-directory $(pwd)"

@@ -1,0 +1,32 @@
+* Appearance
+
+** Theme
+** Fonts
+
+#+begin_src emacs-lisp
+;;
+#+end_src
+
+
+* Programming
+
+* Completion
+
+** mini buffer
+
+- vertico
+- consult
+- marginalia
+
+** buffer
+
+- corfu
+- Cape?
+- eglot
+
+** both
+
+- orderless
+- embark
+
+* Org & friends
