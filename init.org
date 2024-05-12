@@ -1,14 +1,25 @@
+#+begin_src emacs-lisp
+(message "init.elc loaded")
+#+end_src
+
+* admin
+
+- set up elpa
+- check for out-of-date init.el(c) vs init.org
+- lexical-binding
+- custom
+
+* Keyboard
+
 * Appearance
 
 ** Theme
 ** Fonts
 
-#+begin_src emacs-lisp
-;;
-#+end_src
-
-
 * Programming
+
+- cperl-mode
+- yasnippet
 
 * Completion
 
