@@ -1,4 +1,6 @@
 # -*- shell-script -*-
 
+fromto 5 99 < aliases
+
 alias e=emacs
-alias ee="emacs --init-directory $(pwd)"
+alias aa="emacs --init-directory $(pwd)"
