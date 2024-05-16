@@ -1,4 +1,9 @@
-*.elc
 *~
+
+*.elc
 eln-cache/
+elpa/
+history
+
+early-init.el
 init.el
