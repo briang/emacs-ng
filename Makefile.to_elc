@@ -1,0 +1,24 @@
+SOURCE = lisp/*.el init.el early-init.el
+TARGET = $(patsubst %.el,%.elc,$(SOURCE))
+
+EMACS_BATCH = emacs --batch -Q
+
+all: $(TARGET)
+
+clean:
+	@rm -f $(TARGET) *~ # -f also ignores missing files
+	@rm -f  init.el early-init.el
+
+%.el: %.org
+#	rm -f $@
+	$(EMACS_BATCH) \
+		--eval "(require 'org)" \
+		--eval "(org-babel-load-file \"$<\")"
+
+%.elc: %.el
+	# @echo Compiling file $<
+	# $(EMACS_BATCH) -f batch-byte-compile $<
+	# @echo done
+
+.PHONY: all clean
+.PRECIOUS: init.el early-init.el
