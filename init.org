@@ -1,43 +1,168 @@
-#+begin_src emacs-lisp
-(message "init.elc loaded")
+* early-init.el
+
+There are some things that should be done *before* ~init.el~ is loaded. That is
+the purpose of ~early-init.el~.
+
+#+begin_src emacs-lisp :tangle early-init.el
+  ;; early-init.el  -*- lexical-binding: t; -*-
+
+  ;; THIS FILE IS AUTOMAGICALLY GENERATED FROM `init.org`. ANY EDITS
+  ;; MADE TO THIS FILE WILL BE LOST
 #+end_src
 
 * admin
 
-- set up elpa
-- check for out-of-date init.el(c) vs init.org
-- lexical-binding
-- custom
+#+begin_src emacs-lisp
+  ;; init.el  -*- lexical-binding: t; -*-
+
+  ;; THIS FILE IS AUTOMAGICALLY GENERATED FROM `init.org`. ANY EDITS
+  ;; MADE TO THIS FILE WILL BE LOST
+#+end_src
+
+** package
+
+Add ~melpa~ to ~package-archives~ and initialise the packaging system.
+This should leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
+
+#+begin_src emacs-lisp
+
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (package-initialize)
+  
+#+end_src
+
+** use-package
+
+#+begin_src emacs-lisp
+
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+  
+#+end_src
+
+- TODO check for out-of-date init.el(c) vs init.org
 
 * Keyboard
 
-* Appearance
+* Annoyances
+
+** All the stuff I don't want.
+
+Emacs looks better without the uneeded /menus/, /tool bar/ and /scroll bar/.
+If you need the menus, use ~<F10>~.
+
+#+begin_src emacs-lisp
+
+  (setopt sentence-end-double-space nil)
+
+  (setq inhibit-startup-screen t)
+
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+
+  (setq custom-file (locate-user-emacs-file "custom.el"))
+  
+#+end_src
 
 ** Theme
+
+@prot's /ef-themes/ has a very nice black background theme called /ef-dark/.
+
+#+begin_src emacs-lisp
+
+  (use-package ef-themes
+    :init
+    (mapc #'disable-theme custom-enabled-themes) ;; Disable all other themes
+    :config
+    (ef-themes-select 'ef-dark))
+
+#+end_src
+
 ** Fonts
+
+/Iosevka Extended/ is a nice font, [[https://phd-sid.ethz.ch/debian/fonts-iosevka/fonts-iosevka_22.0.0%2Bds-1_all.deb][downloadable]] as a .deb. /Source Code Pro/
+is another option. /Noto Mono/ would be nice, if it had /italics/.
+
+#+begin_src emacs-lisp
+
+  ;; (custom-set-faces			
+  ;;   '(default ((t (:height 180 :family "Source Code Pro")))))
+  (custom-set-faces
+     '(default ((t (:height 180 :family "Iosevka Extended")))))
+
+#+end_src
 
 * Programming
 
+- shell-script-mode
 - cperl-mode
 - yasnippet
+- magit
 
 * Completion
 
-** mini buffer
+Thanks chatgpt!
 
-- vertico
-- consult
-- marginalia
+#+begin_src emacs-lisp
 
-** buffer
+  ;; Install and enable vertico
+  (use-package vertico
+    :init
+    (vertico-mode 1)
+    :bind (:map vertico-map
+		("C-n" . vertico-next)
+		("C-p" . vertico-previous)))
 
-- corfu
-- Cape?
-- eglot
+  ;; Optional: Enable richer annotations using the Marginalia package
+  (use-package marginalia
+    :init
+    (marginalia-mode 1))
 
-** both
+  ;; Optional: Enable orderless for more flexible completion styles
+  (use-package orderless
+    :init
+    (setq completion-styles '(orderless))
+    (setq completion-category-defaults nil)) ; Needed to avoid some edge cases
 
-- orderless
-- embark
+  ;; Optional: Use the consult package for enhanced commands
+  (use-package consult
+    :bind (("C-s" . consult-line)))
+
+  ;; Save minibuffer history
+  (use-package savehist
+    :init
+    (savehist-mode 1))
+  
+#+end_src
 
 * Org & friends
+
+#+begin_src emacs-lisp
+
+  (setq-default org-hide-emphasis-markers t
+                org-image-actual-width '(300)
+                org-pretty-entities t
+                org-startup-indented t
+                org-startup-with-inline-images t
+                org-use-sub-superscripts "{}")
+
+  (use-package org-modern
+    :hook
+    (org-mode . global-org-modern-mode)
+    :custom
+    (org-modern-keyword t)
+    (org-modern-checkbox t)
+    (org-modern-table t))
+
+  (use-package org-tempo		
+    :ensure nil
+    :config
+    (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
+
+#+end_src
