@@ -1,3 +1,10 @@
+* TODO
+
+- delete spurious whitespace
+- check for out-of-date init.el(c) vs init.org
+- line numbers
+- column numbers
+
 * early-init.el
 
 There are some things that should be done *before* ~init.el~ is loaded. That is
@@ -19,7 +26,15 @@ the purpose of ~early-init.el~.
   ;; MADE TO THIS FILE WILL BE LOST
 #+end_src
 
-** package
+** Personal elisp library
+
+#+begin_src emacs-lisp
+
+  (add-to-list 'load-path (locate-user-emacs-file "lisp"))
+
+#+end_src
+
+** package.el
 
 Add ~melpa~ to ~package-archives~ and initialise the packaging system.
 This should leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
@@ -44,8 +59,6 @@ This should leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
   (setq use-package-always-ensure t)
   
 #+end_src
-
-- TODO check for out-of-date init.el(c) vs init.org
 
 * Keyboard
 
@@ -100,9 +113,26 @@ is another option. /Noto Mono/ would be nice, if it had /italics/.
 
 * Programming
 
-- shell-script-mode
-- cperl-mode
-- yasnippet
+** yasnippet
+
+#+begin_src emacs-lisp
+
+  (use-package yasnippet
+    :config
+    (yas-global-mode 1)
+    (use-package yasnippet-snippets))
+
+#+end_src
+
+** TODO modes
+
+- shell-script
+- JSON
+- markdown
+- cperl
+  
+** TODO more
+
 - magit
 
 * Completion
