@@ -1,7 +1,19 @@
 * TODO
 
-- delete spurious whitespace
 - check for out-of-date init.el(c) vs init.org
+- maximized at startup (from spacemacs)
+- undecorated at startup (from spacemacs)
+
+** delete spurious whitespace
+
+Delete whitespace at end-of-line and excess newlines at
+bottom-of-file when saving.
+
+#+begin_src emacs-lisp
+
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+#+end_src
 
 * early-init.el
 
