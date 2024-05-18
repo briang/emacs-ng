@@ -2,8 +2,6 @@
 
 - delete spurious whitespace
 - check for out-of-date init.el(c) vs init.org
-- line numbers
-- column numbers
 
 * early-init.el
 
@@ -101,6 +99,8 @@ If you need the menus, use ~<F10>~.
   
 #+end_src
 
+* Appearance
+
 ** Theme
 
 @prot's /ef-themes/ has a very nice black background theme called /ef-dark/.
@@ -127,6 +127,27 @@ is another option. /Noto Mono/ would be nice, if it had /italics/.
   (custom-set-faces
      '(default ((t (:height 160 :family "Iosevka Extended")))))
 
+#+end_src
+
+** Miscellaneous
+
+Display line numbers in the gutter in all modes. May be better if they
+are only displayed in programming modes. In which case, use ~(add-hook
+'prog-mode-hook 'display-line-numbers-mode)~.
+
+#+begin_src emacs-lisp
+
+  (global-display-line-numbers-mode 1)
+
+#+end_src
+
+Also display line and column numbers in the mode line.
+
+#+begin_src emacs-lisp
+
+  (column-number-mode 1)
+  (line-number-mode 1)
+  
 #+end_src
 
 * Programming
