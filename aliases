@@ -2,5 +2,5 @@
 
 fromto 5 99 < aliases
 
-alias e=emacs
-alias aa="emacs --init-directory $(pwd)"
+alias eee=emacs
+alias e="emacs --init-directory $(pwd)"
