@@ -17,6 +17,24 @@ the purpose of ~early-init.el~.
   ;; MADE TO THIS FILE WILL BE LOST
 #+end_src
 
+#+begin_src emacs-lisp :tangle early-init.el
+
+  (setq gc-cons-percentage 0.5
+        gc-cons-threshold (* 128 1024 1024))
+
+  (defconst emacs-start-time (current-time))
+
+  (defun report-time-since-load (&optional suffix)
+    (message "Loading init...done (%.3fs)%s"
+             (float-time (time-subtract (current-time) emacs-start-time))
+             suffix))
+
+  (add-hook 'after-init-hook
+            #'(lambda () (report-time-since-load " [after-init]"))
+            t)
+
+#+end_src
+
 * admin
 
 #+begin_src emacs-lisp
