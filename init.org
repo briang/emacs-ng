@@ -72,7 +72,7 @@ This should leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   (package-initialize)
-  
+
 #+end_src
 
 ** use-package
@@ -85,7 +85,7 @@ This should leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
 
   (require 'use-package)
   (setq use-package-always-ensure t)
-  
+
 #+end_src
 
 * Keyboard
@@ -108,7 +108,7 @@ If you need the menus, use ~<F10>~.
   (tool-bar-mode -1)
 
   (setq custom-file (locate-user-emacs-file "custom.el"))
-  
+
 #+end_src
 
 * Appearance
@@ -134,7 +134,7 @@ is another option. /Noto Mono/ would be nice, if it had /italics/.
 
 #+begin_src emacs-lisp
 
-  ;; (custom-set-faces			
+  ;; (custom-set-faces
   ;;   '(default ((t (:height 180 :family "Source Code Pro")))))
   (custom-set-faces
      '(default ((t (:height 160 :family "Iosevka Extended")))))
@@ -159,7 +159,7 @@ Also display line and column numbers in the mode line.
 
   (column-number-mode 1)
   (line-number-mode 1)
-  
+
 #+end_src
 
 * Programming
@@ -181,7 +181,7 @@ Also display line and column numbers in the mode line.
 - JSON
 - markdown
 - cperl
-  
+
 ** TODO more
 
 - magit
@@ -219,7 +219,7 @@ Thanks chatgpt!
   (use-package savehist
     :init
     (savehist-mode 1))
-  
+
 #+end_src
 
 * Org & friends
@@ -241,7 +241,7 @@ Thanks chatgpt!
     (org-modern-checkbox t)
     (org-modern-table t))
 
-  (use-package org-tempo		
+  (use-package org-tempo
     :ensure nil
     :config
     (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
