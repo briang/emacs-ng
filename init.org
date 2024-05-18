@@ -107,7 +107,7 @@ is another option. /Noto Mono/ would be nice, if it had /italics/.
   ;; (custom-set-faces			
   ;;   '(default ((t (:height 180 :family "Source Code Pro")))))
   (custom-set-faces
-     '(default ((t (:height 180 :family "Iosevka Extended")))))
+     '(default ((t (:height 160 :family "Iosevka Extended")))))
 
 #+end_src
 
