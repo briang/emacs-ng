@@ -129,15 +129,23 @@ If you need the menus, use ~<F10>~.
 
 ** Fonts
 
-/Iosevka Extended/ is a nice font, [[https://phd-sid.ethz.ch/debian/fonts-iosevka/fonts-iosevka_22.0.0%2Bds-1_all.deb][downloadable]] as a .deb. /Source Code Pro/
-is another option. /Noto Mono/ would be nice, if it had /italics/.
+*Fixed pitch*
+
+/Iosevka Extended/ is a nice font, [[https://phd-sid.ethz.ch/debian/fonts-iosevka/fonts-iosevka_22.0.0%2Bds-1_all.deb][downloadable]] as a .deb. /Source Code
+Pro/ is another option. /Noto Mono/ would be nice, if it had /italics/.
+
+*Variable pitch*
+
+/Ioseveka Aile/ and /Ioseveka Curly/ are quite nice, as is /Cantarell/.
+However, it turns out that I really dislike variable pitch fonts in an
+editor :(
 
 #+begin_src emacs-lisp
 
-  ;; (custom-set-faces
-  ;;   '(default ((t (:height 180 :family "Source Code Pro")))))
-  (custom-set-faces
-     '(default ((t (:height 160 :family "Iosevka Extended")))))
+  (let ((ht 160))
+    (set-face-attribute 'default        nil :font "Iosevka Extended" :height ht :weight 'medium)
+    (set-face-attribute 'fixed-pitch    nil :font "Iosevka Extended" :height ht :weight 'medium)
+    (set-face-attribute 'variable-pitch nil :font "Cantarell"        :height ht :weight 'medium))
 
 #+end_src
 
