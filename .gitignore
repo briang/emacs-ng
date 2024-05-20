@@ -3,6 +3,7 @@
 *.elc
 eln-cache/
 elpa/
+ex/
 history
 
 custom.el
