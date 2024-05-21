@@ -3,16 +3,33 @@
 - check for out-of-date init.el(c) vs init.org
 - maximized at startup (from spacemacs)
 - undecorated at startup (from spacemacs)
+- colored parentheses - rainbow-delimeters
+- colored color names - rainbow
+- shell-script mode
+- JSON mode
+- markdown mode
+- cperl mode
+- magit
+- flycheck
+  - proselint (homebrew)
+- org-toc (sp?)
 
-** delete spurious whitespace
+** delete-trailing-whitespace
 
 Delete whitespace at end-of-line and excess newlines at
 bottom-of-file when saving.
 
 #+begin_src emacs-lisp
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+end_src
 
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+** savehist
 
+#+begin_src emacs-lisp
+;; Save minibuffer history
+(use-package savehist
+  :init
+  (savehist-mode 1))
 #+end_src
 
 * early-init.el
@@ -21,45 +38,40 @@ There are some things that should be done *before* ~init.el~ is loaded. That is
 the purpose of ~early-init.el~.
 
 #+begin_src emacs-lisp :tangle early-init.el
-  ;; early-init.el  -*- lexical-binding: t; -*-
+;; early-init.el  -*- lexical-binding: t; -*-
 
-  ;; THIS FILE IS AUTOMAGICALLY GENERATED FROM `init.org`. ANY EDITS
-  ;; MADE TO THIS FILE WILL BE LOST
+;; THIS FILE IS AUTOMAGICALLY GENERATED FROM `init.org`. ANY EDITS
+;; MADE TO THIS FILE WILL BE LOST
 #+end_src
 
 #+begin_src emacs-lisp :tangle early-init.el
+(setq gc-cons-percentage 0.5
+      gc-cons-threshold (* 128 1024 1024))
 
-  (setq gc-cons-percentage 0.5
-        gc-cons-threshold (* 128 1024 1024))
+(defconst emacs-start-time (current-time))
 
-  (defconst emacs-start-time (current-time))
+(defun report-time-since-load (&optional suffix)
+  (message
+   "Loading init...done (%.3fs)%s"
+   (float-time (time-subtract (current-time) emacs-start-time)) suffix))
 
-  (defun report-time-since-load (&optional suffix)
-    (message "Loading init...done (%.3fs)%s"
-             (float-time (time-subtract (current-time) emacs-start-time))
-             suffix))
-
-  (add-hook 'after-init-hook
-            #'(lambda () (report-time-since-load " [after-init]"))
-            t)
-
+(add-hook 'after-init-hook
+          #'(lambda () (report-time-since-load " [after-init]")) t)
 #+end_src
 
 * admin
 
 #+begin_src emacs-lisp
-  ;; init.el  -*- lexical-binding: t; -*-
+;; init.el  -*- lexical-binding: t; -*-
 
-  ;; THIS FILE IS AUTOMAGICALLY GENERATED FROM `init.org`. ANY EDITS
-  ;; MADE TO THIS FILE WILL BE LOST
+;; THIS FILE IS AUTOMAGICALLY GENERATED FROM `init.org`. ANY EDITS
+;; MADE TO THIS FILE WILL BE LOST
 #+end_src
 
 ** Personal elisp library
 
 #+begin_src emacs-lisp
-
-  (add-to-list 'load-path (locate-user-emacs-file "lisp"))
-
+(add-to-list 'load-path (locate-user-emacs-file "lisp"))
 #+end_src
 
 ** package.el
@@ -68,24 +80,20 @@ Add ~melpa~ to ~package-archives~ and initialise the packaging system.
 This should leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
 
 #+begin_src emacs-lisp
-
-  (require 'package)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-  (package-initialize)
-
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
 #+end_src
 
 ** use-package
 
 #+begin_src emacs-lisp
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
-
-  (require 'use-package)
-  (setq use-package-always-ensure t)
-
+(require 'use-package)
+(setq use-package-always-ensure t)
 #+end_src
 
 * Keyboard
@@ -98,17 +106,15 @@ Emacs looks better without the uneeded /menus/, /tool bar/ and /scroll bar/.
 If you need the menus, use ~<F10>~.
 
 #+begin_src emacs-lisp
+(setopt sentence-end-double-space nil)
 
-  (setopt sentence-end-double-space nil)
+(setq inhibit-startup-screen t)
 
-  (setq inhibit-startup-screen t)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
 
-  (menu-bar-mode -1)
-  (scroll-bar-mode -1)
-  (tool-bar-mode -1)
-
-  (setq custom-file (locate-user-emacs-file "custom.el"))
-
+(setq custom-file (locate-user-emacs-file "custom.el"))
 #+end_src
 
 * Appearance
@@ -118,13 +124,11 @@ If you need the menus, use ~<F10>~.
 @prot's /ef-themes/ has a very nice black background theme called /ef-dark/.
 
 #+begin_src emacs-lisp
-
-  (use-package ef-themes
-    :init
-    (mapc #'disable-theme custom-enabled-themes) ;; Disable all other themes
-    :config
-    (ef-themes-select 'ef-dark))
-
+(use-package ef-themes
+  :init
+  (mapc #'disable-theme custom-enabled-themes) ;; Disable all other themes
+  :config
+  (ef-themes-select 'ef-dark))
 #+end_src
 
 ** Fonts
@@ -141,12 +145,12 @@ However, it turns out that I really dislike variable pitch fonts in an
 editor :(
 
 #+begin_src emacs-lisp
-
-  (let ((ht 160))
-    (set-face-attribute 'default        nil :font "Iosevka Extended" :height ht :weight 'medium)
-    (set-face-attribute 'fixed-pitch    nil :font "Iosevka Extended" :height ht :weight 'medium)
-    (set-face-attribute 'variable-pitch nil :font "Cantarell"        :height ht :weight 'medium))
-
+(let ((ht 160)
+      (fix "Iosevka Extended")
+      (var "Cantarell"))
+  (set-face-attribute 'default        nil :font fix :height ht :weight 'medium)
+  (set-face-attribute 'fixed-pitch    nil :font fix :height ht :weight 'medium)
+  (set-face-attribute 'variable-pitch nil :font var :height ht :weight 'medium))
 #+end_src
 
 ** Miscellaneous
@@ -156,18 +160,14 @@ are only displayed in programming modes. In which case, use ~(add-hook
 'prog-mode-hook 'display-line-numbers-mode)~.
 
 #+begin_src emacs-lisp
-
-  (global-display-line-numbers-mode 1)
-
+(global-display-line-numbers-mode 1)
 #+end_src
 
 Also display line and column numbers in the mode line.
 
 #+begin_src emacs-lisp
-
-  (column-number-mode 1)
-  (line-number-mode 1)
-
+(column-number-mode 1)
+(line-number-mode 1)
 #+end_src
 
 * Programming
@@ -175,83 +175,100 @@ Also display line and column numbers in the mode line.
 ** yasnippet
 
 #+begin_src emacs-lisp
-
-  (use-package yasnippet
-    :config
-    (yas-global-mode 1)
-    (use-package yasnippet-snippets))
-
+(use-package yasnippet
+  :config
+  (yas-global-mode 1)
+  (use-package yasnippet-snippets))
 #+end_src
-
-** TODO modes
-
-- shell-script
-- JSON
-- markdown
-- cperl
-
-** TODO more
-
-- magit
 
 * Completion
 
 Thanks chatgpt!
 
+** vertico
+
 #+begin_src emacs-lisp
+(use-package vertico
+  :init
+  (vertico-mode 1)
+  :bind (:map vertico-map
+              ("C-n" . vertico-next)
+              ("C-p" . vertico-previous)))
+#+end_src
 
-  ;; Install and enable vertico
-  (use-package vertico
-    :init
-    (vertico-mode 1)
-    :bind (:map vertico-map
-		("C-n" . vertico-next)
-		("C-p" . vertico-previous)))
+** marginalia
 
-  ;; Optional: Enable richer annotations using the Marginalia package
-  (use-package marginalia
-    :init
-    (marginalia-mode 1))
+#+begin_src emacs-lisp
+;; Optional: Enable richer annotations using the Marginalia package
+(use-package marginalia
+  :init
+  (marginalia-mode 1))
+#+end_src
 
-  ;; Optional: Enable orderless for more flexible completion styles
-  (use-package orderless
-    :init
-    (setq completion-styles '(orderless))
-    (setq completion-category-defaults nil)) ; Needed to avoid some edge cases
+** orderless
 
-  ;; Optional: Use the consult package for enhanced commands
-  (use-package consult
-    :bind (("C-s" . consult-line)))
+#+begin_src emacs-lisp
+;; Optional: Enable orderless for more flexible completion styles
+(use-package orderless
+  :init
+  (setq completion-styles '(orderless))
+  (setq completion-category-defaults nil)) ; Needed to avoid some edge cases
+#+end_src
 
-  ;; Save minibuffer history
-  (use-package savehist
-    :init
-    (savehist-mode 1))
+** consult
 
+Consult implements a set of `consult-<thing>' commands, which aim to
+improve the way you use Emacs.  The commands are founded on
+`completing-read', which selects from a list of candidate strings.
+Consult provides an enhanced buffer switcher `consult-buffer' and
+search and navigation commands like `consult-imenu' and
+`consult-line'.  Searching through multiple files is supported by the
+asynchronous `consult-grep' command.  Many Consult commands support
+previewing candidates.  If a candidate is selected in the completion
+view, the buffer shows the candidate immediately.
+
+The Consult commands are compatible with multiple completion systems
+based on the Emacs `completing-read' API, including the default
+completion system, Vertico, Mct and Icomplete.
+
+See the README for an overview of the available Consult commands and
+the documentation of the configuration and installation of the
+package.
+
+#+begin_src emacs-lisp
+(use-package consult
+  :bind
+  (("C-s"   . consult-line)
+   ("C-x b" . consult-buffer)
+   ("C-g" . consult-goto-line)
+
+         ))
 #+end_src
 
 * Org & friends
 
 #+begin_src emacs-lisp
 
-  (setq-default org-hide-emphasis-markers t
-                org-image-actual-width '(300)
-                org-pretty-entities t
-                org-startup-indented t
-                org-startup-with-inline-images t
-                org-use-sub-superscripts "{}")
+(setq-default org-hide-emphasis-markers t
+              org-image-actual-width '(300)
+              org-pretty-entities t
+              org-startup-indented t
+              org-startup-with-inline-images t
+              org-use-sub-superscripts "{}")
 
-  (use-package org-modern
-    :hook
-    (org-mode . global-org-modern-mode)
-    :custom
-    (org-modern-keyword t)
-    (org-modern-checkbox t)
-    (org-modern-table t))
+(setq org-src-preserve-indentation t
+      org-edit-src-content-indentation 0) ; sane indentation for org src blocks
 
-  (use-package org-tempo
-    :ensure nil
-    :config
-    (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
+(use-package org-modern
+  :hook
+  (org-mode . global-org-modern-mode)
+  :custom
+  (org-modern-keyword t)
+  (org-modern-checkbox t)
+  (org-modern-table t))
 
+(use-package org-tempo
+  :ensure nil
+  :config
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 #+end_src
