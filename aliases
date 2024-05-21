@@ -2,5 +2,4 @@
 
 fromto 5 99 < aliases
 
-alias eee=emacs
 alias e="emacs --init-directory $(pwd)"
