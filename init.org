@@ -191,6 +191,73 @@ Set fill column and display it
 
 * Programming
 
+#+begin_src emacs-lisp
+(use-package flycheck
+  :diminish flycheck-mode
+  :init
+  (global-flycheck-mode))
+#+end_src
+
+** perl
+
+Mostly (all?) takn from [[https://github.com/zakame/.emacs.d/blob/a7e4cd351d62db6387c05e3e60718a3948a04c30/init.el][zakame's github]]
+
+*** cperl
+
+#+begin_src emacs-lisp
+(use-package cperl-mode
+  :mode "\\.\\([pP]\\([Llm]\\|erl\\|sgi\\|od\\)\\|al\\|t\\)\\'"
+  :preface
+  (defalias 'perl-mode 'cperl-mode)
+  :config
+  (cperl-lazy-install)
+  (setq cperl-invalid-face nil
+        cperl-indent-level 4
+        cperl-indent-parens-as-block t
+        cperl-close-paren-offset -4
+        cperl-continued-statement-offset 4
+        cperl-tab-always-indent t
+        cperl-lazy-help-time 2)
+  ;; remove any prefixes (namespaces etc.) from the function name
+  (defvar zakame/cperl-package-re "\\([A-Z_a-z][0-9A-Z_a-z]*::\\)+")
+  (defun zakame/which-function-trim-package (s)
+    "Trim Perl package namespace from S."
+    (if (and (stringp s)
+             (string-match (concat "\\`\\(?:" zakame/cperl-package-re "\\)") s))
+        (substring s (match-end 0))
+      s))
+  (add-hook 'cperl-mode-hook
+            (lambda ()
+              (advice-add 'which-function :filter-return
+                          #'zakame/which-function-trim-package)))
+  (define-key cperl-mode-map "{" nil)
+  (dolist (face '(cperl-array-face cperl-hash-face))
+    (set-face-attribute face nil
+                        :background 'unspecified)))
+#+end_src
+
+*** perltidy
+
+#+begin_src emacs-lisp
+(use-package perltidy
+  :quelpa (perltidy :fetcher github :repo "zakame/perltidy.el")
+  :after cperl-mode
+  :bind (:map cperl-mode-map
+              ("C-c <tab> r" . perltidy-region)
+              ("C-c <tab> b" . perltidy-buffer)
+              ("C-c <tab> s" . perltidy-subroutine)
+              ("C-c <tab> t" . perltidy-dwim-safe)))
+#+end_src
+
+*** realgud
+
+#+begin_src emacs-lisp
+(use-package realgud
+  :after cperl-mode
+  :bind (:map cperl-mode-map
+              ("C-c C-d" . realgud:perldb)))
+#+end_src
+
 ** yasnippet
 
 #+begin_src emacs-lisp
