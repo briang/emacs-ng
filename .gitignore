@@ -4,6 +4,7 @@
 eln-cache/
 elpa/
 ex/
+quelpa/
 history
 
 custom.el
