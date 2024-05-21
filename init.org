@@ -10,20 +10,21 @@
 - markdown mode
 - cperl mode
 - magit
+- recentf
 - flycheck
   - proselint (homebrew)
 - org-toc (sp?)
 
-** delete-trailing-whitespace
+** [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html][delete-trailing-whitespace]]
 
-Delete whitespace at end-of-line and excess newlines at
-bottom-of-file when saving.
+Delete whitespace at end-of-line and excess newlines at bottom-of-file when
+saving.
 
 #+begin_src emacs-lisp
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+end_src
 
-** savehist
+** [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html][savehist]]
 
 #+begin_src emacs-lisp
 ;; Save minibuffer history
@@ -34,8 +35,8 @@ bottom-of-file when saving.
 
 * early-init.el
 
-There are some things that should be done *before* ~init.el~ is loaded. That is
-the purpose of ~early-init.el~.
+There are some things that should be done *before* ~init.el~ is loaded. That is the
+purpose of ~early-init.el~.
 
 #+begin_src emacs-lisp :tangle early-init.el
 ;; early-init.el  -*- lexical-binding: t; -*-
@@ -76,8 +77,8 @@ the purpose of ~early-init.el~.
 
 ** package.el
 
-Add ~melpa~ to ~package-archives~ and initialise the packaging system.
-This should leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
+Add ~melpa~ to ~package-archives~ and initialise the packaging system. This should
+leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
 
 #+begin_src emacs-lisp
 (require 'package)
@@ -102,8 +103,8 @@ This should leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
 
 ** All the stuff I don't want.
 
-Emacs looks better without the uneeded /menus/, /tool bar/ and /scroll bar/.
-If you need the menus, use ~<F10>~.
+Emacs looks better without the uneeded /menus/, /tool bar/ and /scroll bar/. If you
+need the menus, use ~<F10>~.
 
 #+begin_src emacs-lisp
 (setopt sentence-end-double-space nil)
@@ -135,14 +136,13 @@ If you need the menus, use ~<F10>~.
 
 *Fixed pitch*
 
-/Iosevka Extended/ is a nice font, [[https://phd-sid.ethz.ch/debian/fonts-iosevka/fonts-iosevka_22.0.0%2Bds-1_all.deb][downloadable]] as a .deb. /Source Code
-Pro/ is another option. /Noto Mono/ would be nice, if it had /italics/.
+/Iosevka Extended/ is a nice font, [[https://phd-sid.ethz.ch/debian/fonts-iosevka/fonts-iosevka_22.0.0%2Bds-1_all.deb][downloadable]] as a .deb. /Source Code Pro/ is
+another option. /Noto Mono/ would be nice, if it had /italics/.
 
 *Variable pitch*
 
-/Ioseveka Aile/ and /Ioseveka Curly/ are quite nice, as is /Cantarell/.
-However, it turns out that I really dislike variable pitch fonts in an
-editor :(
+/Ioseveka Aile/ and /Ioseveka Curly/ are quite nice, as is /Cantarell/. However, it
+turns out that I really dislike variable pitch fonts in an editor :(
 
 #+begin_src emacs-lisp
 (let ((ht 160)
@@ -155,19 +155,26 @@ editor :(
 
 ** Miscellaneous
 
-Display line numbers in the gutter in all modes. May be better if they
-are only displayed in programming modes. In which case, use ~(add-hook
-'prog-mode-hook 'display-line-numbers-mode)~.
+Display line numbers in the gutter in all modes. May be better if they are only
+displayed in programming modes. In which case, use ~~(add-hook 'prog-mode-hook
+'display-line-numbers-mode)~.
 
 #+begin_src emacs-lisp
 (global-display-line-numbers-mode 1)
 #+end_src
 
-Also display line and column numbers in the mode line.
+Display line and column numbers in the mode line.
 
 #+begin_src emacs-lisp
 (column-number-mode 1)
 (line-number-mode 1)
+#+end_src
+
+Set fill column and display it
+
+#+begin_src emacs-lisp
+(setq fill-column 80)
+(global-display-fill-column-indicator-mode t)
 #+end_src
 
 * Programming
@@ -217,32 +224,20 @@ Thanks chatgpt!
 
 ** consult
 
-Consult implements a set of `consult-<thing>' commands, which aim to
-improve the way you use Emacs.  The commands are founded on
-`completing-read', which selects from a list of candidate strings.
-Consult provides an enhanced buffer switcher `consult-buffer' and
-search and navigation commands like `consult-imenu' and
-`consult-line'.  Searching through multiple files is supported by the
-asynchronous `consult-grep' command.  Many Consult commands support
-previewing candidates.  If a candidate is selected in the completion
-view, the buffer shows the candidate immediately.
+[[https://github.com/minad/consult][Consult]] is a collection of commands that enhance some of Emacs built-in
+commands.
 
-The Consult commands are compatible with multiple completion systems
-based on the Emacs `completing-read' API, including the default
-completion system, Vertico, Mct and Icomplete.
-
-See the README for an overview of the available Consult commands and
-the documentation of the configuration and installation of the
-package.
+There's likely going to be more added here
 
 #+begin_src emacs-lisp
 (use-package consult
   :bind
-  (("C-s"   . consult-line)
+  (
    ("C-x b" . consult-buffer)
-   ("C-g" . consult-goto-line)
-
-         ))
+   ("C-g"   . consult-goto-line)
+   ("C-s"   . consult-line)
+   ("C-S-y" . consult-yank-from-kill-ring)
+   ))
 #+end_src
 
 * Org & friends
@@ -257,7 +252,8 @@ package.
               org-use-sub-superscripts "{}")
 
 (setq org-src-preserve-indentation t
-      org-edit-src-content-indentation 0) ; sane indentation for org src blocks
+      org-edit-src-content-indentation 0) ; sane indentation for org
+                                          ; src blocks
 
 (use-package org-modern
   :hook
