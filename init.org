@@ -97,6 +97,18 @@ leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
 (setq use-package-always-ensure t)
 #+end_src
 
+** quelpa
+
+#+begin_src emacs-lisp
+(use-package quelpa-use-package
+  ;; :disabled
+  :ensure t
+  :config
+  (setq quelpa-checkout-melpa-p nil
+        quelpa-build-explicit-tar-format-p t))
+#+end_src
+
+
 * Keyboard
 
 * Annoyances
