@@ -14,6 +14,7 @@
 - flycheck
   - proselint (homebrew)
 - org-toc (sp?)
+- full screen! (or, at least, a bit bigger)
 
 ** [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html][delete-trailing-whitespace]]
 
@@ -111,6 +112,11 @@ leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
 
 * Keyboard
 
+#+begin_src emacs-lisp
+(use-package emacs
+  :bind* ("C-#" . #'other-window)) ; `:bind*` binds globally
+#+end_src
+
 * Annoyances
 
 ** All the stuff I don't want.
@@ -148,13 +154,14 @@ need the menus, use ~<F10>~.
 
 *Fixed pitch*
 
-/Iosevka Extended/ is a nice font, [[https://phd-sid.ethz.ch/debian/fonts-iosevka/fonts-iosevka_22.0.0%2Bds-1_all.deb][downloadable]] as a .deb. /Source Code Pro/ is
-another option. /Noto Mono/ would be nice, if it had /italics/.
+/Iosevka Extended/ is a nice font, [[https://phd-sid.ethz.ch/debian/fonts-iosevka/fonts-iosevka_22.0.0%2Bds-1_all.deb][downloadable]] as a .deb. /Source Code
+Pro/ is another option. /Noto Mono/ would be nice, if it had /italics/.
 
 *Variable pitch*
 
-/Ioseveka Aile/ and /Ioseveka Curly/ are quite nice, as is /Cantarell/. However, it
-turns out that I really dislike variable pitch fonts in an editor :(
+/Ioseveka Aile/ and /Ioseveka Curly/ are quite nice, as is /Cantarell/.
+However, it turns out that I really dislike variable pitch fonts in an
+editor :(
 
 #+begin_src emacs-lisp
 (let ((ht 160)
