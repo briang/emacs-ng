@@ -1,0 +1,10 @@
+|  Markup   |           |
+| character |  Meaning  |
+|    <c>    |    <c>    |
+|-----------+-----------|
+|     =     | =verbatim=  |
+|     ~     |   ~code~    |
+|     /     |  /italic/   |
+|     *     |   *bold*    |
+|     +     |   +stike+   |
+|     _     | _underline_ |
