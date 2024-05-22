@@ -185,7 +185,7 @@ Display line and column numbers in the mode line.
 Set fill column and display it
 
 #+begin_src emacs-lisp
-(setq fill-column 80)
+(setq-default fill-column 80) ; setq-default sets globally. setq does not
 (global-display-fill-column-indicator-mode t)
 #+end_src
 
