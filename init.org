@@ -15,6 +15,8 @@
   - proselint (homebrew)
 - org-toc (sp?)
 - full screen! (or, at least, a bit bigger)
+- custom.el stored somewhere
+- *~ stored somewhere
 
 ** tabs
 
@@ -103,15 +105,15 @@ leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
   (package-install 'use-package))
 
 (require 'use-package)
-(setq use-package-always-ensure t)
+(setq use-package-always-ensure t
+      use-package-always-defer t)
 #+end_src
 
 ** quelpa
 
 #+begin_src emacs-lisp
 (use-package quelpa-use-package
-  ;; :disabled
-  :ensure t
+  :demand
   :config
   (setq quelpa-checkout-melpa-p nil
         quelpa-build-explicit-tar-format-p t))
@@ -152,6 +154,7 @@ need the menus, use ~<F10>~.
 
 #+begin_src emacs-lisp
 (use-package ef-themes
+  :demand
   :init
   (mapc #'disable-theme custom-enabled-themes) ;; Disable all other themes
   :config
@@ -350,8 +353,10 @@ There's likely going to be more added here
               org-use-sub-superscripts "{}")
 
 (setq org-src-preserve-indentation t
-      org-edit-src-content-indentation 0) ; sane indentation for org
-                                          ; src blocks
+      org-edit-src-content-indentation 0) ; sane indents for org src blocks
+
+(use-package org
+  :ensure nil)
 
 (use-package org-modern
   :hook
