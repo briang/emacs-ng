@@ -8,13 +8,20 @@
 - shell-script mode
 - JSON mode
 - markdown mode
-- cperl mode
+- Makefiles
 - magit
 - recentf
 - flycheck
   - proselint (homebrew)
 - org-toc (sp?)
 - full screen! (or, at least, a bit bigger)
+
+** tabs
+
+#+begin_src emacs-lisp
+(setq-default indent-tabs-mode nil
+              tab-width 4)
+#+end_src
 
 ** [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html][delete-trailing-whitespace]]
 
@@ -27,8 +34,9 @@ saving.
 
 ** [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html][savehist]]
 
+Save minibuffer history
+
 #+begin_src emacs-lisp
-;; Save minibuffer history
 (use-package savehist
   :init
   (savehist-mode 1))
@@ -328,12 +336,12 @@ There's likely going to be more added here
    ("C-s"   . consult-line)
    ("C-S-y" . consult-yank-from-kill-ring)
    ))
+
 #+end_src
 
 * Org & friends
 
 #+begin_src emacs-lisp
-
 (setq-default org-hide-emphasis-markers t
               org-image-actual-width '(300)
               org-pretty-entities t
