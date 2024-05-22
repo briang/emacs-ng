@@ -269,9 +269,10 @@ Mostly (all?) takn from [[https://github.com/zakame/.emacs.d/blob/a7e4cd351d62db
 
 * Completion
 
-Thanks chatgpt!
-
 ** vertico
+
+Enhances the display of completion candidates and displays them as a
+vertical column in the minibuffer.
 
 #+begin_src emacs-lisp
 (use-package vertico
@@ -284,14 +285,17 @@ Thanks chatgpt!
 
 ** marginalia
 
+Adds annotations to completion candidates in the minibuffer
+
 #+begin_src emacs-lisp
-;; Optional: Enable richer annotations using the Marginalia package
 (use-package marginalia
   :init
   (marginalia-mode 1))
 #+end_src
 
 ** orderless
+
+Search for completions using unordered "words". For esample
 
 #+begin_src emacs-lisp
 ;; Optional: Enable orderless for more flexible completion styles
