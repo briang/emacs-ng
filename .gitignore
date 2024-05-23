@@ -6,6 +6,7 @@ elpa/
 ex/
 quelpa/
 history
+spacemacs
 
 custom.el
 early-init.el
