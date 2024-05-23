@@ -124,7 +124,7 @@ leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
 
 #+begin_src emacs-lisp
 (use-package emacs
-  :bind* ("C-#" . #'other-window)) ; `:bind*` binds globally
+  :bind* ("C-#" . other-window)) ; `:bind*` binds globally
 #+end_src
 
 * Annoyances
@@ -251,7 +251,17 @@ Mostly (all?) takn from [[https://github.com/zakame/.emacs.d/blob/a7e4cd351d62db
   (define-key cperl-mode-map "{" nil)
   (dolist (face '(cperl-array-face cperl-hash-face))
     (set-face-attribute face nil
-                        :background 'unspecified)))
+                        :background 'unspecified))
+  :config
+  (defun xbg/perl-save-and-run ()
+    "run current buffer with perl"
+    (interactive)
+    (save-buffer)
+    (compile (concat "perl " buffer-file-name)))
+  :bind (:map cperl-mode-map
+              ("<f12>" . xbg/perl-save-and-run)
+              ("C-h f" . cperl-perldoc)
+              ("M-<f1>" . cperl-perldoc-at-point)))
 #+end_src
 
 *** perltidy
