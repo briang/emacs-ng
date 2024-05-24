@@ -97,7 +97,7 @@ leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
 (package-initialize)
 #+end_src
 
-** use-package
+** [[https://github.com/jwiegley/use-package][use-package]]
 
 #+begin_src emacs-lisp
 (unless (package-installed-p 'use-package)
@@ -109,7 +109,7 @@ leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
       use-package-always-defer t)
 #+end_src
 
-** quelpa
+** [[https://github.com/quelpa/quelpa-use-package][quelpa-use-package]]
 
 #+begin_src emacs-lisp
 (use-package quelpa-use-package
@@ -148,7 +148,7 @@ need the menus, use ~<F10>~.
 
 * Appearance
 
-** Theme
+** [[https://github.com/protesilaos/ef-themes][ef-themes]]
 
 @prot's /ef-themes/ has a very nice black background theme called /ef-dark/.
 
@@ -209,6 +209,8 @@ Set fill column and display it
 
 * Programming
 
+[[https://www.flycheck.org/][*flycheck*]]
+
 #+begin_src emacs-lisp
 (use-package flycheck
   :diminish flycheck-mode
@@ -220,7 +222,7 @@ Set fill column and display it
 
 Mostly (all?) takn from [[https://github.com/zakame/.emacs.d/blob/a7e4cd351d62db6387c05e3e60718a3948a04c30/init.el][zakame's github]]
 
-*** cperl
+*** [[https://www.emacswiki.org/emacs/CPerlMode][cperl-mode]]
 
 #+begin_src emacs-lisp
 (use-package cperl-mode
@@ -264,7 +266,7 @@ Mostly (all?) takn from [[https://github.com/zakame/.emacs.d/blob/a7e4cd351d62db
               ("M-<f1>" . cperl-perldoc-at-point)))
 #+end_src
 
-*** perltidy
+*** [[https://github.com/zakame/perltidy.el][perltidy]]
 
 #+begin_src emacs-lisp
 (use-package perltidy
@@ -277,7 +279,7 @@ Mostly (all?) takn from [[https://github.com/zakame/.emacs.d/blob/a7e4cd351d62db
               ("C-c <tab> t" . perltidy-dwim-safe)))
 #+end_src
 
-*** realgud
+*** [[https://github.com/realgud/realgud][realgud]]
 
 #+begin_src emacs-lisp
 (use-package realgud
@@ -286,7 +288,7 @@ Mostly (all?) takn from [[https://github.com/zakame/.emacs.d/blob/a7e4cd351d62db
               ("C-c C-d" . realgud:perldb)))
 #+end_src
 
-** yasnippet
+** [[https://github.com/joaotavora/yasnippet][yasnippet]] and [[https://github.com/AndreaCrotti/yasnippet-snippets][yasnippet-snippets]]
 
 #+begin_src emacs-lisp
 (use-package yasnippet
@@ -297,7 +299,7 @@ Mostly (all?) takn from [[https://github.com/zakame/.emacs.d/blob/a7e4cd351d62db
 
 * Completion
 
-** vertico
+** [[https://github.com/minad/vertico][vertico]]
 
 Enhances the display of completion candidates and displays them as a
 vertical column in the minibuffer.
@@ -311,7 +313,7 @@ vertical column in the minibuffer.
               ("C-p" . vertico-previous)))
 #+end_src
 
-** marginalia
+** [[https://github.com/minad/marginalia][marginalia]]
 
 Adds annotations to completion candidates in the minibuffer
 
@@ -321,7 +323,7 @@ Adds annotations to completion candidates in the minibuffer
   (marginalia-mode 1))
 #+end_src
 
-** orderless
+** [[https://github.com/oantolin/orderless][orderless]]
 
 Search for completions using unordered "words". For esample
 
@@ -333,10 +335,9 @@ Search for completions using unordered "words". For esample
   (setq completion-category-defaults nil)) ; Needed to avoid some edge cases
 #+end_src
 
-** consult
+** [[https://github.com/minad/consult][consult]]
 
-[[https://github.com/minad/consult][Consult]] is a collection of commands that enhance some of Emacs built-in
-commands.
+A collection of commands that enhance some of Emacs built-in commands.
 
 There's likely going to be more added here
 
@@ -352,7 +353,7 @@ There's likely going to be more added here
 
 #+end_src
 
-* Org & friends
+* [[https://orgmode.org/org.html][org]]
 
 #+begin_src emacs-lisp
 (setq-default org-hide-emphasis-markers t
@@ -367,7 +368,11 @@ There's likely going to be more added here
 
 (use-package org
   :ensure nil)
+#+end_src
 
+** [[https://github.com/minad/org-modern][org-modern]]
+
+#+begin_src emacs-lisp
 (use-package org-modern
   :hook
   (org-mode . global-org-modern-mode)
@@ -375,7 +380,11 @@ There's likely going to be more added here
   (org-modern-keyword t)
   (org-modern-checkbox t)
   (org-modern-table t))
+#+end_src
 
+** [[https://orgmode.org/manual/Structure-Templates.html][org-tempo]]
+
+#+begin_src emacs-lisp
 (use-package org-tempo
   :ensure nil
   :demand
