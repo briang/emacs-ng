@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Data::Dump
+# key: ,dd
+# contributor: briang
+# --
+use Data::Dump; # FIXME
+$0

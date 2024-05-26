@@ -1,0 +1,38 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: dott
+# key: .t
+# contributor: briang
+# --
+#!/usr/bin/env perl
+
+use v5.36;
+use utf8;
+use open ':std', ':encoding(UTF-8)';
+
+use strict;  use warnings;  use autodie qw/:all/;
+use experimental qw(signatures);
+
+BEGIN {
+    if ($ENV{INSIDE_EMACS}) {
+        chdir '..' until -d 't';
+        use lib 'lib';
+    }
+}
+
+use Test2::V0;
+
+use Data::Dump; # FIXME
+
+# FIXME The following will only display failing tests
+# use File::Spec;
+# Test::Most->builder->output(File::Spec->devnull); # FIXME only display fails!
+
+if (0) {
+   no strict 'refs';
+   diag($_), $_->() for grep { /^test_/ } keys %::
+}
+################################################################################
+
+pass;
+
+done_testing;

@@ -1,0 +1,25 @@
+# -*- mode: snippet -*-
+# name: Getopt::Long::Descriptive
+# key: ,gld
+# contributor: briang
+# --
+$0use Getopt::Long::Descriptive;
+
+my $APP = \$0 =~ s{.*/}{}r;
+
+$Getopt::Long::autoabbrev = 0;  # don't allow abbrevs of --some-long-option
+my ($option, $help) = describe_options(
+    "$APP  %o  conf-set  ( perl-version | path-to-tarball ) +",
+
+    [ 'jobs|j=i'   => 'the number of jobs `make` will run simultaneously (default: 5)', { default => 5 } ],
+
+    [],
+
+    [ 'help', "print this help message and exit" ],
+);
+my $usage = "usage: " . (split /\n/, $help)[0];
+
+print($help), exit if $option->help;
+
+die "$usage\n"
+    if @ARGV < 2;

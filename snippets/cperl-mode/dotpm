@@ -1,0 +1,35 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: dotpm
+# key: .pm
+# contributor: briang
+# --
+use v5.36;
+use autodie ':all';
+use utf8;
+use open ':std', ':encoding(UTF-8)';
+
+use experimental qw( builtin defer for_list isa re_strict try );
+
+use builtin qw( ceil floor indexed trim );
+# true false is_bool weaken unweaken is_weak blessed
+# refaddr reftype created_as_string created_as_number
+
+use Capture::Tiny;
+use Carp;
+use List::AllUtils;
+use Path::Tiny;
+use Syntax::Keyword::Match;
+use Time::HiRes 'time';
+use Time::Piece;
+################################################################################
+use Object::Pad;
+
+class ${1:Whatever} {
+    use Data::Dump; # FIXME
+
+    $0
+};
+################################################################################
+if ( not caller ) { } # modulino
+
+1;
