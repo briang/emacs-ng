@@ -11,3 +11,4 @@ spacemacs
 custom.el
 early-init.el
 init.el
+/transient/
