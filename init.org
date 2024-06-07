@@ -10,7 +10,7 @@ purpose of ~early-init.el~.
 ;; MADE TO THIS FILE WILL BE LOST
 #+end_src
 
-TODO where did this code come from (jw?)
+TODO where did this code come from (jw?). See also bedrock.
 
 #+begin_src emacs-lisp :tangle early-init.el
 (setq gc-cons-percentage 0.5
@@ -109,8 +109,8 @@ With negative N, comment out original line and use the absolute value."
   ("C-#"         . other-window)
   ("M-k"         . kill-whole-line)
   ("C-d"         . duplicate-line-or-region)
-  ("C-S-<prior>" . previous-buffer)
-  ("C-S-<next>"  . next-buffer)
+  ("C-<prior>" . previous-buffer)
+  ("C-<next>"  . next-buffer)
 )
 #+end_src
 
