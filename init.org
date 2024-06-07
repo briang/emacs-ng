@@ -170,6 +170,27 @@ editor :(
   (set-face-attribute 'variable-pitch nil :font var :height ht :weight 'medium))
 #+end_src
 
+[[https://github.com/domtronn/all-the-icons.el][*all-the-icons*]]
+
+=M-x all-the-icons-install-fonts RET= must be run manually after =all-the-icons= has
+been istalled (unless there's some way to do that using =use-package=.
+
+#+begin_src emacs-lisp
+(use-package all-the-icons
+  :disabled
+  :demand
+  :if (display-graphic-p))
+#+end_src
+
+[[https://github.com/jtbm37/all-the-icons-dired][*all-the-icons-dired*]]
+
+#+begin_src emacs-lisp
+(use-package all-the-icons-dired ; pulls in all-the-icons
+  :disabled
+  :demand
+  :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
+#+end_src
+
 ** Miscellaneous
 
 Display line numbers in the gutter in all modes. May be better if they are only
