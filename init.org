@@ -194,6 +194,12 @@ Set fill column and display it
 (global-display-fill-column-indicator-mode t)
 #+end_src
 
+Truncate long lines -- display a continuation character in right-hand gutter.
+
+#+begin_src emacs-lisp
+(setq truncate-lines t)
+#+end_src
+
 * Programming
 
 [[https://www.flycheck.org/][*flycheck*]]
