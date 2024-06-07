@@ -55,6 +55,11 @@ leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
 
 ** [[https://github.com/jwiegley/use-package][use-package]]
 
+~use-package-always-ensure t~ ensures that packages will be installed.
+Packages that are included with emacs should use ~:ensure nil~.
+
+~use-package-always-defer t~ packages that are deferred will load on demand
+
 #+begin_src emacs-lisp
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
