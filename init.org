@@ -965,3 +965,18 @@ This is prot's magit setup.
   (setq git-commit-style-convention-checks '(non-empty-second-line))
   (setq magit-diff-refine-hunk t))
 #+end_src
+
+** [[https://github.com/alphapapa/magit-todos][magit-todos]]
+
+Adds lists of =TODO=, =FIXME= and =MAYBE= (and possibly others?) items to ~magit-status~
+page.
+
+FIXME: needs fixing because it does nothing at all!
+
+#+begin_src emacs-lisp
+(use-package magit-todos
+  :disabled
+  :after magit
+  :config
+  (magit-todos-mode 1))
+#+end_src
