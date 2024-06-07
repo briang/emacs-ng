@@ -4,7 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(magit yasnippet-snippets ws-butler which-key vertico realgud quelpa-use-package perltidy org-modern orderless marginalia helpful flycheck ef-themes consult all-the-icons-dired)))
+   '(magit yasnippet-snippets ws-butler with-editor which-key vertico realgud quelpa-use-package perltidy org-modern orderless marginalia helpful flycheck ef-themes consult all-the-icons-dired)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
