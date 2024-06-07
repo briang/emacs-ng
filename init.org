@@ -285,6 +285,7 @@ Mostly (all?) takn from [[https://github.com/zakame/.emacs.d/blob/a7e4cd351d62db
 
 #+begin_src emacs-lisp
 (use-package yasnippet
+  :demand
   :config
   (yas-global-mode 1)
   (use-package yasnippet-snippets))
