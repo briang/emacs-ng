@@ -392,6 +392,8 @@ There's likely going to be more added here
 
 ** [[https://github.com/minad/org-modern][org-modern]]
 
+Gives error: =File mode specification error: (wrong-type-argument sequencep t)=
+
 #+begin_src emacs-lisp
 (use-package org-modern
   :hook
