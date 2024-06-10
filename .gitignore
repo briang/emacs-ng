@@ -7,6 +7,7 @@ ex/
 quelpa/
 history
 spacemacs
+emacs
 
 custom.el
 early-init.el
