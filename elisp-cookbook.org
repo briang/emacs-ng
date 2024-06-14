@@ -1,0 +1,46 @@
+* recompile on save (not Elisp byte compilation)
+[[https://mail.gnu.org/archive/html/emacs-devel/2024-06/msg00208.html][emacs-devel mailing list]]
+From:    Terje Larsen
+Subject: recompile on save (not Elisp byte compilation)
+Date:    Wed, 12 Jun 2024 00:48:30 +0200
+
+Greetings, I wonder if there is any functionality like
+recompile on save for the regular 'recompile' command from
+the compile package.
+
+A while ago I created this functionality like this:
+
+#+begin_src emacs-lisp
+  (defun compile-on-save-start ()
+    (let ((main-buffer (current-buffer))
+          (compile-buffer (compilation-find-buffer)))
+      (unless (get-buffer-process compile-buffer)
+        (recompile)
+        (switch-to-buffer-other-window main-buffer))))
+
+(define-minor-mode compile-on-save-mode
+    "Minor mode to automatically call `recompile' whenever the
+current buffer is saved. When there is ongoing compilation,
+nothing happens."
+    :lighter " CoS"
+    (if compile-on-save-mode
+        (progn  (make-local-variable 'after-save-hook)
+                (add-hook 'after-save-hook
+                          'compile-on-save-start nil t))
+      (kill-local-variable 'after-save-hook)))
+#+end_src
+
+I re-discovered it today, when I thought it was something
+built-in to GNU Emacs, but realized it was my own thing.
+This got me thinking that this is probably something that
+would be nice to have as part of GNU Emacs.
+
+What do you all think? Is there something like this already?
+Would it be useful?
+
+I have used it to compile things, run tests, generate
+diagrams etc.
+* Local variables :noexport:
+# local variables:
+# fill-column: 72
+# end:
