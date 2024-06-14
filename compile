@@ -1,0 +1,39 @@
+#!/bin/bash
+
+set -o errexit  # exit on error
+set -o pipefail # trap pipe fails
+set -o nounset  # trap unset vars
+# set -o xtrace
+################################################################################
+
+EMACS_REPO="git://git.savannah.gnu.org/emacs.git"
+LOCAL_EMACS="/tmp/emacs"
+INSTALL_DIR="/opt/emacs"
+
+git clone "$EMACS_REPO" --depth=1 "$LOCAL_EMACS"
+
+cd "$LOCAL_EMACS"
+
+./autogen.sh
+./configure \
+ --prefix="$INSTALL_DIR" \
+ --with-cairo \
+ --with-libsystemd \
+ --with-mailutils \
+ --with-native-compilation \
+ --with-pop=yes \
+ --with-sound=alsa \
+ --with-toolkit-scroll-bars \
+ --with-x-toolkit=gtk3 \
+ --with-x=yes \
+ --without-gconf \
+ 'CFLAGS=-g -O2'
+
+# not needed:
+#   --with-json \
+#   --with-sqlite \
+
+make -j5
+
+echo 'Now `mkdir /opt/emacs` if necessary'
+echo 'and `make install -j5`'
