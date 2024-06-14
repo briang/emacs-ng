@@ -548,3 +548,8 @@ colour.
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
+
+* Local variables :noexport:
+# local variables:
+# fill-column: 72
+# end:
