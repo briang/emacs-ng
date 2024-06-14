@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: local variable block
+# key: ,lv
+# contributor: briang
+# --
+* Local variables :noexport:
+# local variables:
+# $0fill-column: 72
+# end:
