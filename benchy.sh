@@ -1,5 +1,8 @@
 #!/bin/bash
 
+EMACS="/opt/emacs/bin/emacs"
+# EMACS="/usr/bin/emacs"
+EMACS_FLAGS="--init-directory $(pwd)"
 
 hyperfine \
-    "emacs --init-directory $(pwd) --eval '(save-buffers-kill-emacs)'"
+    "${EMACS} ${EMACS_FLAGS} --eval '(save-buffers-kill-emacs)'"
