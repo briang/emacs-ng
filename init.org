@@ -80,7 +80,6 @@ Packages that are included with emacs should use ~:ensure nil~.
         quelpa-build-explicit-tar-format-p t))
 #+end_src
 
-
 * Keyboard
 
 #+begin_src emacs-lisp
@@ -431,6 +430,28 @@ There's likely going to be more added here
 - full screen! (or, at least, a bit bigger)
 - custom.el stored somewhere
 - *~ stored somewhere
+
+** [[https://github.com/emacsfodder/move-text/][move-text]]
+
+Move single lines, or region, up and down using =M-<up>= and =M-<down>.=
+Re-indents region after move.
+
+#+begin_src emacs-lisp
+(use-package move-text
+  :demand
+  :config
+  (move-text-default-bindings)
+  ;; from move-text repo:
+  (defun indent-region-advice (&rest ignored)
+    (let ((deactivate deactivate-mark))
+      (if (region-active-p)
+          (indent-region (region-beginning) (region-end))
+        (indent-region (line-beginning-position) (line-end-position)))
+      (setq deactivate-mark deactivate)))
+
+  (advice-add 'move-text-up :after 'indent-region-advice)
+  (advice-add 'move-text-down :after 'indent-region-advice))
+#+end_src
 
 ** which-key
 
