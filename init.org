@@ -537,3 +537,14 @@ FIXME: needs fixing because it does nothing at all!
   :config
   (magit-todos-mode 1))
 #+end_src
+
+** [[https://github.com/Fanael/rainbow-delimiters/][rainbow-delimiters]]
+
+Highlights matching pairs of parentheses, brackets, and braces according
+to their depth. Each successive level is highlighted in a different
+colour.
+
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
