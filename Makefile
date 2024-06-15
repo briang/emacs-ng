@@ -9,7 +9,11 @@ all:
 		--eval "(require 'org)" \
 		--eval "(org-babel-load-file \"init.org\")"
 
+backup:
+	@cp -p init.el init.el.save
+	@cp -p early-init.el early-init.el.save
+
 clean:
 	@rm -f *~ $(EL_FILES)
 
-.PHONY: all clean
+.PHONY: all backup clean
