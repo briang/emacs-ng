@@ -9,6 +9,7 @@ history
 spacemacs
 emacs
 
+*.save
 custom.el
 early-init.el
 init.el
