@@ -1,13 +1,15 @@
 EMACS_BATCH = emacs --batch -Q
+EL_FILES = init.el early-init.el
+SAVE_FILES = $(subst .el,.el.save,$(EL_FILES))
 
 all:
-	@rm -f init.el early-init.el
+	@rm -f $(EL_FILES)
 	$(EMACS_BATCH) \
 		--init-directory "$(PWD)" \
 		--eval "(require 'org)" \
 		--eval "(org-babel-load-file \"init.org\")"
 
 clean:
-	@rm -f *~ init.el early-init.el
+	@rm -f *~ $(EL_FILES)
 
 .PHONY: all clean
