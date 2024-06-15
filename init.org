@@ -549,6 +549,44 @@ colour.
   :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
+** [[https://www.gnu.org/software/emacs/manual/html_node/autotype/Hippie-Expand.html][hippie-exp]]
+
+Provides a variety of completions and expansions. Called repeatedly, it
+tries all possible completions in succession.
+
+@jwiegley / @zakame
+
+#+begin_src emacs-lisp
+(use-package hippie-exp
+  :bind (("M-/"   . hippie-expand)
+         ) ;; ("C-M-/" . dabbrev-completion))
+  :custom
+  (hippie-expand-try-functions-list
+   '(try-expand-dabbrev
+     try-expand-dabbrev-all-buffers
+     try-expand-dabbrev-from-kill
+     try-complete-file-name-partially
+     try-complete-file-name
+     try-expand-all-abbrevs
+     try-expand-list
+     try-expand-line
+     try-complete-lisp-symbol-partially
+     try-complete-lisp-symbol)))
+#+end_src
+
+** [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Dynamic-Abbrevs.html][dabbrev]]
+
+@jwiegley
+
+#+begin_src emacs-lisp
+(use-package dabbrev
+  :bind ("C-M-/" . dabbrev-expand)
+  :custom
+  (dabbrev-case-fold-search nil)
+  (dabbrev-case-replace nil)
+  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
+#+end_src
+
 * Local variables :noexport:
 # local variables:
 # fill-column: 72
