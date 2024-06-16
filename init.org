@@ -410,7 +410,7 @@ There's likely going to be more added here
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
 #+end_src
 
-* TODO
+* TODO Lots of things to do
 
 - check for out-of-date init.el(c) vs init.org
 - maximized at startup (from spacemacs)
@@ -525,10 +525,8 @@ This is prot's magit setup.
 
 ** [[https://github.com/alphapapa/magit-todos][magit-todos]]
 
-Adds lists of =TODO=, =FIXME= and =MAYBE= (and possibly others?) items to ~magit-status~
-page.
-
-FIXME: needs fixing because it does nothing at all!
+Adds lists of =TODO=, =FIXME= and =MAYBE= (and possibly others?) items to
+~magit-status~ page.
 
 #+begin_src emacs-lisp
 (use-package magit-todos
