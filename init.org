@@ -585,6 +585,17 @@ tries all possible completions in succession.
   (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
 #+end_src
 
+** hl-line
+
+Highlights the current line.
+
+#+begin_src emacs-lisp
+(use-package hl-line
+  :demand
+  :config
+  (global-hl-line-mode t))
+#+end_src
+
 * Local variables :noexport:
 # local variables:
 # fill-column: 72
