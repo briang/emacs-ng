@@ -227,7 +227,7 @@ Truncate long lines -- display a continuation character in right-hand gutter.
 
 * Programming
 
-[[https://www.flycheck.org/][*flycheck*]]
+** [[https://www.flycheck.org/][flycheck]]
 
 #+begin_src emacs-lisp
 (use-package flycheck
