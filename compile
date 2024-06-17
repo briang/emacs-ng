@@ -8,9 +8,17 @@ set -o nounset  # trap unset vars
 
 EMACS_REPO="git://git.savannah.gnu.org/emacs.git"
 LOCAL_EMACS="/tmp/emacs"
+EMACS_GIT="$HOME/gits/emacs"
 INSTALL_DIR="/opt/emacs"
 
-git clone "$EMACS_REPO" --depth=1 "$LOCAL_EMACS"
+
+if false ; then
+    git clone "$EMACS_REPO" --depth=1 "$LOCAL_EMACS"
+else
+    [[ -e "$LOCAL_EMACS" ]] && rm -rf "$LOCAL_EMACS"
+    mkdir "$LOCAL_EMACS"
+    cp -a "$EMACS_GIT/" "$LOCAL_EMACS/.."
+fi
 
 cd "$LOCAL_EMACS"
 
@@ -29,11 +37,7 @@ cd "$LOCAL_EMACS"
  --without-gconf \
  'CFLAGS=-g -O2'
 
-# not needed:
-#   --with-json \
-#   --with-sqlite \
-
 make -j5
 
-echo 'Now `mkdir /opt/emacs` if necessary'
-echo 'and `make install -j5`'
+echo -e "\nNow \`mkdir /opt/emacs\` if necessary"
+echo "and \`make install -j5\`"
