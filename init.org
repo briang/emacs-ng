@@ -222,7 +222,7 @@ Set fill column and display it
 Truncate long lines -- display a continuation character in right-hand gutter.
 
 #+begin_src emacs-lisp
-(setq truncate-lines t)
+(setq-default truncate-lines t)
 #+end_src
 
 * Programming
