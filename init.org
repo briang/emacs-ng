@@ -595,6 +595,17 @@ Highlights the current line.
   (global-hl-line-mode t))
 #+end_src
 
+** tab bar [very TODO]
+
+[[https://new.reddit.com/r/emacs/comments/1dj3y1e/release_101_vimtabbarel_make_the_emacs_tabbar/][reddit post]]
+
+#+begin_src emacs-lisp
+(use-package vim-tab-bar
+  :disabled
+  :config
+  (add-hook 'after-init-hook #'vim-tab-bar-mode))
+#+end_src
+
 * Local variables :noexport:
 # local variables:
 # fill-column: 72
