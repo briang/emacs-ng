@@ -5,39 +5,52 @@ set -o pipefail # trap pipe fails
 set -o nounset  # trap unset vars
 # set -o xtrace
 ################################################################################
-
 EMACS_REPO="git://git.savannah.gnu.org/emacs.git"
 LOCAL_EMACS="/tmp/emacs"
 EMACS_GIT="$HOME/gits/emacs"
 INSTALL_DIR="/opt/emacs"
+TEMP_FILES_DIR="/tmp/emacs-files"
+TEMP_INSTALL_DIR="$TEMP_FILES_DIR$INSTALL_DIR"
 
-
-if false ; then
-    git clone "$EMACS_REPO" --depth=1 "$LOCAL_EMACS"
-else
-    [[ -e "$LOCAL_EMACS" ]] && rm -rf "$LOCAL_EMACS"
-    mkdir "$LOCAL_EMACS"
-    cp -a "$EMACS_GIT/" "$LOCAL_EMACS/.."
+if [[ -d "$TEMP_INSTALL_DIR" ]] ; then
+    rm -rf "$TEMP_INSTALL_DIR";
 fi
+
+mkdir -p "$TEMP_INSTALL_DIR"
+
+# if false ; then
+#     git clone "$EMACS_REPO" --depth=1 "$LOCAL_EMACS"
+# else
+#     [[ -e "$LOCAL_EMACS" ]] && rm -rf "$LOCAL_EMACS"
+#     mkdir -p "$LOCAL_EMACS"
+#     cp -a "$EMACS_GIT/" "$LOCAL_EMACS/.."
+# fi
 
 cd "$LOCAL_EMACS"
 
 ./autogen.sh
-./configure \
- --prefix="$INSTALL_DIR" \
- --with-cairo \
- --with-libsystemd \
- --with-mailutils \
- --with-native-compilation \
- --with-pop=yes \
- --with-sound=alsa \
- --with-toolkit-scroll-bars \
- --with-x-toolkit=gtk3 \
- --with-x=yes \
- --without-gconf \
- 'CFLAGS=-g -O2'
 
-make -j5
+configure_opts=
+configure_opts+=" --prefix=\"$INSTALL_DIR\""
 
-echo -e "\nNow \`mkdir /opt/emacs\` if necessary"
-echo "and \`make install -j5\`"
+configure_opts+=" --with-cairo"
+configure_opts+=" --with-libsystemd"
+configure_opts+=" --with-mailutils"
+configure_opts+=" --with-native-compilation"
+configure_opts+=" --with-pop=yes"
+configure_opts+=" --with-sound=alsa"
+configure_opts+=" --with-toolkit-scroll-bars"
+configure_opts+=" --with-x-toolkit=gtk3"
+configure_opts+=" --with-x=yes"
+configure_opts+=" --without-gconf"
+
+configure_opts+=" 'CFLAGS=-g -O2'"
+
+./configure $configure_opts
+
+make -j5 && make install prefix=$TEMP_INSTALL_DIR -j5
+
+printf "\n\n\n"
+echo "your files are in $TEMP_FILES_DIR,"
+echo "ready to be copied into $INSTALL_DIR"
+echo "with \`cp $TEMP_FILES_DIR/* /\`"
