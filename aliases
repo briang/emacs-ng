@@ -1,5 +1,4 @@
 # -*- shell-script -*-
 
-fromto 5 99 < aliases
-
+export PATH=/opt/emacs/bin/:$PATH
 alias e="emacs --init-directory $(pwd)"
