@@ -606,6 +606,13 @@ Highlights the current line.
   (add-hook 'after-init-hook #'vim-tab-bar-mode))
 #+end_src
 
+** YAML
+
+#+begin_src emacs-lisp
+(use-package yaml-mode
+  :mode "\\.ya?ml\\'")
+#+end_src
+
 * Local variables :noexport:
 # local variables:
 # fill-column: 72
