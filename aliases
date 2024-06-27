@@ -1,4 +1,13 @@
 # -*- shell-script -*-
 
 export PATH=/opt/emacs/bin/:$PATH
+
 alias e="emacs --init-directory $(pwd)"
+
+function grep-all-emacs_d-elisp {
+    if [[ $# != 1 ]] ; then
+        echo > /dev/stderr "PCRE expected as only argument"
+        return 1
+    fi
+    grep -Pi "$1" $(find ~/.emacs.d.* -name \*.el -type f)
+}
