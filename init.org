@@ -4,7 +4,7 @@ There are some things that should be done *before* ~init.el~ is loaded. That is 
 purpose of ~early-init.el~.
 
 #+begin_src emacs-lisp :tangle early-init.el
-;; early-init.el  -*- lexical-binding: t; -*-
+;; early-init.el -*- lexical-binding: t; -*-
 
 ;; THIS FILE IS AUTOMAGICALLY GENERATED FROM `init.org`. ANY EDITS
 ;; MADE TO THIS FILE WILL BE LOST
@@ -27,10 +27,16 @@ TODO: where did this code come from (jw?). See also bedrock.
           #'(lambda () (report-time-since-load " [after-init]")) t)
 #+end_src
 
+[[https://www.youtube.com/watch?v=uC6s-2qBXdU][Maximize the frame on startup]]
+
+#+begin_src emacs-lisp
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+#+end_src
+
 * admin
 
 #+begin_src emacs-lisp
-;; init.el  -*- lexical-binding: t; -*-
+;; init.el -*- lexical-binding: t; -*-
 
 ;; THIS FILE IS AUTOMAGICALLY GENERATED FROM `init.org`. ANY EDITS
 ;; MADE TO THIS FILE WILL BE LOST
