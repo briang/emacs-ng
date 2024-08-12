@@ -145,6 +145,36 @@ need the menus, use ~<F10>~.
 
 * Appearance
 
+** doom-modeline
+
+Installing doom-modeline will install [[https://github.com/rainstormstudio/nerd-icons.el#installing-fonts][nerd-icons]] automatically. However,
+A Nerd Font needs to be installed manually. The [[https://github.com/rainstormstudio/nerd-icons.el#installing-fonts][nerd-icons]] GitHub
+states:
+
+#+begin_quote
+Please go to Nerd Fonts website and get a Nerd font. After installing
+the font on your machine, you need to set nerd-icons-font-family to
+match its font name so that the font can be properly used under GUI. If
+you want Nerd Fonts to work under a terminal, please change your
+terminal’s font to a Nerd font.
+
+If the Nerd Font you installed does not display correctly (e.g. appear
+cut off), it is recommended to use Symbols Nerd Fonts Mono (Symbols Nerd
+Font). You can use M-x nerd-icons-install-fonts to install Symbols Nerd
+Fonts Mono for you. Note that for Windows you’ll need to manually
+install the font after you used this function.
+#+end_quote
+
+#+begin_src emacs-lisp
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+;(use-package doom-modeline
+;  :demand t
+;  :after nerd-icons
+;  :config (doom-modeline-mode t))
+#+end_src
+
 ** [[https://github.com/protesilaos/ef-themes][ef-themes]]
 
 @prot's /ef-themes/ has a very nice black background theme called /ef-dark/.
@@ -418,6 +448,7 @@ There's likely going to be more added here
 
 * TODO Lots of things to do
 
+- checkout [[https://github.com/MiniApollo/kickstart.emacs][kickstart starter kit]]
 - check for out-of-date init.el(c) vs init.org
 - maximized at startup (from spacemacs)
 - undecorated at startup (from spacemacs)
