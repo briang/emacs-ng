@@ -13,6 +13,10 @@ backup:
 	@cp -p init.el init.el.save
 	@cp -p early-init.el early-init.el.save
 
+unbackup:
+	@cp -p init.el.save init.el
+	@cp -p early-init.el.save early-init.el
+
 clean:
 	@rm -f *~ $(EL_FILES)
 
