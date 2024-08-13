@@ -8,6 +8,7 @@ quelpa/
 history
 spacemacs
 emacs
+var/
 
 *.save
 custom.el
