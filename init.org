@@ -143,6 +143,12 @@ need the menus, use ~<F10>~.
 (tool-bar-mode -1)
 #+end_src
 
+** [[https://github.com/emacscollective/no-littering][no-littering]]
+
+#+begin_src emacs-lisp
+(use-package no-littering)
+#+end_src
+
 * Appearance
 
 ** doom-modeline
