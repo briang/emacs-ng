@@ -141,12 +141,27 @@ need the menus, use ~<F10>~.
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
+
+;; There are a number of arcane details associated with how Emacs might create
+;; your backup files. Should it rename the original and write out the edited
+;; buffer? What if the original is linked? In general, the safest but slowest
+;; bet is to always make backups by copying.
+;;
+;; See https://stackoverflow.com/a/151946 for FMTYENTKA backups
+(let ((autosave-folder (locate-user-emacs-file "backups")))
+  (setq backup-directory-alist `(("." . ,autosave-folder))
+        backup-by-copying t))
 #+end_src
 
 ** [[https://github.com/emacscollective/no-littering][no-littering]]
 
 #+begin_src emacs-lisp
 (use-package no-littering)
+
+;; no-littering doesn't set this by default so we must place auto save files in
+;; the same path as it uses for sessions ~emacs-from-scratch/Emacs.org~
+(setq auto-save-file-name-transforms
+      `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 #+end_src
 
 * Appearance
