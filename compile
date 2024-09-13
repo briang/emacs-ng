@@ -31,7 +31,7 @@ cd "$LOCAL_EMACS"
 ./autogen.sh
 
 configure_opts=
-configure_opts+=" --prefix=\"$INSTALL_DIR\""
+configure_opts+=" --prefix=$INSTALL_DIR"
 
 configure_opts+=" --with-cairo"
 configure_opts+=" --with-libsystemd"
@@ -44,9 +44,7 @@ configure_opts+=" --with-x-toolkit=gtk3"
 configure_opts+=" --with-x=yes"
 configure_opts+=" --without-gconf"
 
-configure_opts+=" 'CFLAGS=-g -O2'"
-
-./configure $configure_opts
+./configure $configure_opts CFLAGS="-g -O2"
 
 make -j5 && make install prefix=$TEMP_INSTALL_DIR -j5
 
