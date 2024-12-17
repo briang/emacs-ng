@@ -26,6 +26,7 @@ use Data::Dump; # FIXME
 # FIXME The following will only display failing tests
 # use File::Spec;
 # Test::Most->builder->output(File::Spec->devnull); # FIXME only display fails!
+# https://stackoverflow.com/a/31906407
 
 if (0) {
    no strict 'refs';
