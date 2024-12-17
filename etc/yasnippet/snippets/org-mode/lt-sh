@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: bash source block
+# key: <sh
+# --
+#+begin_src bash
+$0
+#+end_src

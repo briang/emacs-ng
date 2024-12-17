@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: perl source block
+# key: <pl
+# --
+#+begin_src perl
+$0
+#+end_src
