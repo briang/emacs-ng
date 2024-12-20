@@ -51,4 +51,4 @@ make -j5 && make install prefix=$TEMP_INSTALL_DIR -j5
 printf "\n\n\n"
 echo "your files are in $TEMP_FILES_DIR,"
 echo "ready to be copied into $INSTALL_DIR"
-echo "with \`cp $TEMP_FILES_DIR/* /\`"
+echo "with \`cp -a $TEMP_FILES_DIR/* /\`"
