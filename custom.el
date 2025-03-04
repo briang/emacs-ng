@@ -3,8 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(yasnippet-snippets yaml-mode which-key vertico realgud rainbow-delimiters quelpa-use-package perltidy org-modern orderless no-littering move-text marginalia magit-todos helpful flycheck ef-themes doom-modeline consult centaur-tabs all-the-icons-nerd-fonts)))
+ '(ignored-local-variable-values '((eval add-hook 'after-save-hook #'org-babel-tangle t t))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
