@@ -293,6 +293,17 @@ Truncate long lines -- display a continuation character in right-hand gutter.
   (global-flycheck-mode))
 #+end_src
 
+
+** [[https://github.com/godotengine/emacs-gdscript-mode?tab=readme-ov-file][gdscript]]
+
+This is in MELPA but the original is in the official [[https://github.com/godotengine/emacs-gdscript-mode][Godot]] repository. I
+don't know if they're the same, or which is most up-to-date if they're
+not.
+
+#+begin_src emacs-lisp
+(use-package gdscript-mode)
+#+end_src
+
 ** perl
 
 Mostly (all?) takn from [[https://github.com/zakame/.emacs.d/blob/a7e4cd351d62db6387c05e3e60718a3948a04c30/init.el][zakame's github]]
