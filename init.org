@@ -681,6 +681,22 @@ Highlights the current line.
   :mode "\\.ya?ml\\'")
 #+end_src
 
+** centaur tabs
+
+[[https://github.com/ema2159/centaur-tabs][github]]
+[[https://www.youtube.com/watch?v=rZkTBrLgzq4&pp=ygUMY2VudGF1ciB0YWJz][youtube]]
+
+#+begin_src emacs-lisp
+(use-package centaur-tabs
+  :demand t
+  :config
+  (setq centaur-tabs-set-bar 'under
+        x-underline-at-descent-line t
+        centaur-tabs-gray-out-icons 'buffer
+        centaur-tabs-set-modified-marker t)
+  (centaur-tabs-mode t))
+#+end_src
+
 * Local variables :noexport:
 # local variables:
 # fill-column: 72
