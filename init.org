@@ -115,6 +115,7 @@ With negative N, comment out original line and use the absolute value."
 (use-package emacs
   :config
   (setq kill-whole-line t) ; Kill line at BOL also kills newline
+  (setq sort-fold-case  t) ; sort-lines ignores case)
   :bind* ; binds globally
   ("C-#"         . other-window)
   ("M-k"         . kill-whole-line)
