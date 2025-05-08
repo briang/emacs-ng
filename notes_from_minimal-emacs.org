@@ -1,0 +1,174 @@
+[[https://github.com/jamescherti/minimal-emacs.d][minimal-emacs is available on GitHub]]
+
+* use-package and defer
+
+In addition to =minimal-emacs.d=, startup speed is influenced by your computer's
+processing power and disk speed. To establish a baseline, start Emacs with only
+=minimal-emacs.d= and no additional configurations, then run ~M-x emacs-init-time~.
+Incrementally modify your init files and observe the impact on startup time. For
+consistent comparisons, always test on the same computer and Emacs version. It's
+also important to ensure that all packages are deferred using ~:defer t~ and
+~:commands~, which makes Emacs load them only when needed (see additional examples
+in this =README.md=). While startup time is important, other factors, like native
+compilation, are even more important. Although native compilation may introduce
+some brief initial and negligible initial delay, it is beneficial in the long
+run as it significantly speeds up Emacs.
+
+* How to activate recentf, savehist, saveplace, and auto-revert?
+
+The =recentf=, =savehist=, =saveplace=, and =auto-revert= built-in packages are already
+configured by =minimal-emacs.d=. All you need to do is activate them by adding the
+following to =~/.emacs.d/post-init.el=:
+
+#+begin_src emacs-lisp
+;; Auto-revert in Emacs is a feature that automatically updates the
+;; contents of a buffer to reflect changes made to the underlying file
+;; on disk.
+
+(add-hook 'after-init-hook #'global-auto-revert-mode)
+
+;; recentf is an Emacs package that maintains a list of recently
+;; accessed files, making it easier to reopen files you have worked on
+;; recently.
+
+(add-hook 'after-init-hook #'(lambda()
+                               (let ((inhibit-message t))
+                                 (recentf-mode 1))))
+(add-hook 'kill-emacs-hook #'recentf-cleanup)
+
+;; savehist is an Emacs feature that preserves the minibuffer history between
+;; sessions. It saves the history of inputs in the minibuffer, such as commands,
+;; search strings, and other prompts, to a file. This allows users to retain
+;; their minibuffer history across Emacs restarts.
+
+(add-hook 'after-init-hook #'savehist-mode)
+
+;; save-place-mode enables Emacs to remember the last location within a file
+;; upon reopening. This feature is particularly beneficial for resuming work at
+;; the precise point where you previously left off.
+
+(add-hook 'after-init-hook #'save-place-mode)
+#+end_src
+
+* Code folding
+
+The built-in =outline-minor-mode= provides structured code folding in modes such
+as Emacs Lisp and Python, allowing users to collapse and expand sections based
+on headings or indentation levels. This feature enhances navigation and improves
+the management of large files with hierarchical structures.
+
+Alternatively, =hs-minor-mode= offers basic code folding for blocks defined by
+curly braces, functions, or other language-specific delimiters. However, for
+more flexible folding that supports multiple nested levels, =outline-minor-mode=
+is generally the preferred choice, as it enables finer control over section
+visibility in deeply structured code.
+
+For example, to enable =outline-minor-mode= in Emacs Lisp:
+
+#+begin_src emacs-lisp
+(add-hook 'emacs-lisp-mode-hook #'outline-minor-mode)
+#+end_src
+
+For folding based on indentation levels, the =outline-indent= Emacs package
+provides a minor mode that enables folding according to the indentation
+structure:
+
+#+begin_src emacs-lisp
+(use-package outline-indent
+  :ensure t
+  :defer t
+  :commands outline-indent-minor-mode
+
+  :custom
+  (outline-indent-ellipsis " ▼ ")
+
+  :init
+  ;; The minor mode can also be automatically activated for a certain modes.
+  (add-hook 'python-mode-hook #'outline-indent-minor-mode)
+  (add-hook 'python-ts-mode-hook #'outline-indent-minor-mode)
+
+  (add-hook 'yaml-mode-hook #'outline-indent-minor-mode)
+  (add-hook 'yaml-ts-mode-hook #'outline-indent-minor-mode))
+#+end_src
+
+In addition to code folding, =outline-indent= also allows: moving indented blocks
+up and down, indenting/unindenting to adjust indentation levels, inserting a new
+line with the same indentation level as the current line, Move backward/forward
+to the indentation level of the current line, and more.
+
+* Enhancing undo/redo
+
+The =undo-fu= package is a lightweight wrapper around Emacs' built-in undo system,
+providing more convenient undo/redo functionality while preserving access to the
+full undo history. The =undo-fu-session= package complements =undo-fu= by enabling
+the saving and restoration of undo history across Emacs sessions, even after
+restarting.
+
+The default undo system in Emacs has two main issues that =undo-fu= fixes:
+
+1. Redo requires two steps: To redo an action after undoing, you need to press a
+   key twice, which can be annoying and inefficient.
+2. Accidental over-redo: When redoing, it's easy to go too far back, past the
+   point where you started the undo, which makes it hard to return to the exact
+   state you wanted to restore.
+
+To install and configure these packages, add the following to
+=~/.emacs.d/post-init.el=:
+
+#+begin_src emacs-lisp
+;; The undo-fu package is a lightweight wrapper around Emacs' built-in undo
+;; system, providing more convenient undo/redo functionality.
+(use-package undo-fu
+  :defer t
+  :commands (undo-fu-only-undo
+             undo-fu-only-redo
+             undo-fu-only-redo-all
+             undo-fu-disable-checkpoint)
+  :config
+  (global-unset-key (kbd "C-z"))
+  (global-set-key (kbd "C-z") 'undo-fu-only-undo)
+  (global-set-key (kbd "C-S-z") 'undo-fu-only-redo))
+
+;; The undo-fu-session package complements undo-fu by enabling the saving and
+;; restoration of undo history across Emacs sessions, even after restarting.
+(use-package undo-fu-session
+  :defer t
+  :commands undo-fu-session-global-mode
+  :hook (after-init . undo-fu-session-global-mode))
+#+end_src
+
+* A better Emacs help buffer
+
+=helpful= is an alternative to the built-in Emacs help that provides much more
+contextual information.
+
+To configure =helpful=, add the following to =~/.emacs.d/post-init.el=:
+
+#+begin_src emacs-lisp
+(use-package helpful
+  :defer t
+  :commands (helpful-callable
+             helpful-variable
+             helpful-key
+             helpful-command
+             helpful-at-point
+             helpful-function)
+  :bind
+  ([remap describe-command] . helpful-command)
+  ([remap describe-function] . helpful-callable)
+  ([remap describe-key] . helpful-key)
+  ([remap describe-symbol] . helpful-symbol)
+  ([remap describe-variable] . helpful-variable)
+  :custom
+  (helpful-max-buffers 7))
+#+end_src
+
+* Preventing Emacs from saving custom.el
+
+To prevent Emacs from saving customization information to a custom file, set
+=custom-file= to null-device by adding to the following to
+=~/.emacs.d/post-init.el=:
+
+#+begin_src emacs-lisp
+(setq custom-file null-device)
+#+end_src
