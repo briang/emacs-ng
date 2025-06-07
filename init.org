@@ -698,6 +698,19 @@ Highlights the current line.
   (centaur-tabs-mode t))
 #+end_src
 
+** [[https://github.com/jrblevin/markdown-mode][markdown-mode]]
+
+This config lifted from source repo
+
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :ensure t
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "pandoc")
+  :bind (:map markdown-mode-map
+              ("C-c C-e" . markdown-do)))
+#+end_src
+
 * Local variables :noexport:
 # local variables:
 # fill-column: 72
