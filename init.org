@@ -120,8 +120,9 @@ With negative N, comment out original line and use the absolute value."
   ("C-#"         . other-window)
   ("M-k"         . kill-whole-line)
   ("C-d"         . duplicate-line-or-region)
-  ("C-<prior>" . previous-buffer)
-  ("C-<next>"  . next-buffer)
+  ;;; Handle C-PgUp & C-PgDn in `centaur-tabs`
+  ; ("C-<prior>" . previous-buffer)
+  ; ("C-<next>"  . next-buffer)
 )
 #+end_src
 
@@ -690,11 +691,17 @@ Highlights the current line.
 #+begin_src emacs-lisp
 (use-package centaur-tabs
   :demand t
+  :bind
+  (("C-<prior>" . centaur-tabs-backward-tab)
+   ("C-<next>" . centaur-tabs-forward-tab))
   :config
+  (centaur-tabs-enable-buffer-alphabetical-reordering)
   (setq centaur-tabs-set-bar 'under
         x-underline-at-descent-line t
         centaur-tabs-gray-out-icons 'buffer
-        centaur-tabs-set-modified-marker t)
+        centaur-tabs-set-modified-marker t
+        centaur-tabs-adjust-buffer-order t)
+
   (centaur-tabs-mode t))
 #+end_src
 
