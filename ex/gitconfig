@@ -1,0 +1,68 @@
+[color]
+
+branch = auto
+diff   = auto
+status = auto
+
+[user]
+
+email = briang@cpan.org
+name  = brian greenfield
+
+[alias]
+
+aliases   = !git config --get-regexp ^alias | sed -e 's/^alias.//' -e 's/[ ]/ = /' | sort
+amend     = commit --amend
+distclean = clean -dfx
+dump      = cat-file -p
+hist      = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+ignore    = "!gi() { curl -L -s https://www.gitignore.io/api/$@ ;}; gi"
+oneline   = log --oneline --graph --decorate
+type      = cat-file -t
+# undo      = "!f() { git reset --hard $(git rev-parse --abbrev-ref HEAD)@{${1-1}}; }; f"
+unstage   = reset HEAD
+
+br        = branch
+ci        = commit
+cim       = commit -m
+co        = checkout
+st        = status
+sw        = checkout
+
+[core]
+
+autocrlf = false
+editor   = emacs
+safecrlf = true
+pager = less -r
+
+[github]
+
+user = briang
+token = 736689aa49d8f18adb152c710861431cd0171260
+
+[diff]
+
+#	algorithm = histogram # or, algorithm = patience
+# compactionHeuristic = true # https://github.com/blog/2188-git-2-9-has-been-released
+
+[merge]
+
+tool = emerge
+
+[commit]
+
+verbose = true # add diffs to commit comments
+
+[pull]
+
+rebase = false
+
+[init]
+
+defaultBranch = main
+[safe]
+	directory = /home/git/perl5
+	directory = /home/git/emacs
+	directory = /home/git/gdlauncher
+	directory = /home/git/ppa-emacs

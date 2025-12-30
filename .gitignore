@@ -3,7 +3,6 @@
 *.elc
 eln-cache/
 elpa/
-ex/
 quelpa/
 history
 spacemacs

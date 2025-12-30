@@ -1,0 +1,613 @@
+* early-init.el
+
+There are some things that should be done *before* ~init.el~ is loaded. That is the
+purpose of ~early-init.el~.
+
+#+begin_src emacs-lisp :tangle early-init.el
+;; early-init.el  -*- lexical-binding: t; -*-
+
+;; THIS FILE IS AUTOMAGICALLY GENERATED FROM `init.org`. ANY EDITS
+;; MADE TO THIS FILE WILL BE LOST
+#+end_src
+
+TODO: where did this code come from (jw?). See also bedrock.
+
+#+begin_src emacs-lisp :tangle early-init.el
+(setq gc-cons-percentage 0.5
+      gc-cons-threshold (* 128 1024 1024))
+
+(defconst emacs-start-time (current-time))
+
+(defun report-time-since-load (&optional suffix)
+  (message
+   "Loading init...done (%.3fs)%s"
+   (float-time (time-subtract (current-time) emacs-start-time)) suffix))
+
+(add-hook 'after-init-hook
+          #'(lambda () (report-time-since-load " [after-init]")) t)
+#+end_src
+
+* admin
+
+#+begin_src emacs-lisp
+;; init.el  -*- lexical-binding: t; -*-
+
+;; THIS FILE IS AUTOMAGICALLY GENERATED FROM `init.org`. ANY EDITS
+;; MADE TO THIS FILE WILL BE LOST
+#+end_src
+
+** Personal elisp library
+
+#+begin_src emacs-lisp
+(add-to-list 'load-path (locate-user-emacs-file "lisp"))
+#+end_src
+
+** package.el
+
+Add ~melpa~ to ~package-archives~ and initialise the packaging system. This should
+leave ~gnu~, ~nongnu~ and ~melpa~ in the list.
+
+#+begin_src emacs-lisp
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+#+end_src
+
+** [[https://github.com/jwiegley/use-package][use-package]]
+
+~use-package-always-ensure t~ ensures that packages will be installed.
+Packages that are included with emacs should use ~:ensure nil~.
+
+~use-package-always-defer t~ packages that are deferred will load on demand
+
+#+begin_src emacs-lisp
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t
+      use-package-always-defer t)
+#+end_src
+
+** [[https://github.com/quelpa/quelpa-use-package][quelpa-use-package]]
+
+#+begin_src emacs-lisp
+(use-package quelpa-use-package
+  :demand t
+  :config
+  (setq quelpa-checkout-melpa-p nil
+        quelpa-build-explicit-tar-format-p t))
+#+end_src
+
+* Keyboard
+
+#+begin_src emacs-lisp
+;; https://stackoverflow.com/questions/88399/how-do-i-duplicate-a-whole-line-in-emacs#answer-4717026
+(defun duplicate-line-or-region (&optional n)
+  "Duplicate current line, or region if active.
+With argument N, make N copies.
+With negative N, comment out original line and use the absolute value."
+  (interactive "*p")
+  (let ((use-region (use-region-p)))
+    (save-excursion
+      (let ((text (if use-region ; Get region if active, otherwise line
+                      (buffer-substring (region-beginning) (region-end))
+                    (prog1 (thing-at-point 'line)
+                      (end-of-line)
+                      (if (< 0 (forward-line 1)) ; Go to beginning of next line, or make a new one
+                          (newline))))))
+        (dotimes (i (abs (or n 1))) ; Insert N times, or once if not specified
+          (insert text))))
+    (if use-region nil ; Only if we're working with a line (not a region)
+      (let ((pos (- (point) (line-beginning-position)))) ;Save column
+        (if (> 0 n) ; Comment out original with negative arg
+            (comment-region (line-beginning-position) (line-end-position)))
+        (forward-line 1)
+        (forward-char pos)))))
+
+(use-package emacs
+  :config
+  (setq kill-whole-line t) ; Kill line at BOL also kills newline
+  :bind* ; binds globally
+  ("C-#"         . other-window)
+  ("M-k"         . kill-whole-line)
+  ("C-d"         . duplicate-line-or-region)
+  ("C-<prior>" . previous-buffer)
+  ("C-<next>"  . next-buffer)
+)
+#+end_src
+
+* Annoyances
+
+** All the stuff I don't want.
+
+Emacs looks better without the uneeded /menus/, /tool bar/ and /scroll bar/. If you
+need the menus, use ~<F10>~.
+
+#+begin_src emacs-lisp
+(setopt sentence-end-double-space nil)
+
+(setq inhibit-startup-screen t
+      custom-file (locate-user-emacs-file "custom.el")
+      use-short-answers t) ; y-or-n-p
+
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+#+end_src
+
+* Appearance
+
+** [[https://github.com/protesilaos/ef-themes][ef-themes]]
+
+@prot's /ef-themes/ has a very nice black background theme called /ef-dark/.
+
+#+begin_src emacs-lisp
+(use-package ef-themes
+  :demand t
+  :init
+  (mapc #'disable-theme custom-enabled-themes) ;; Disable all other themes
+  :config
+  (ef-themes-select 'ef-dark))
+#+end_src
+
+** Fonts
+
+*Fixed pitch*
+
+/Iosevka Extended/ is a nice font, [[https://phd-sid.ethz.ch/debian/fonts-iosevka/fonts-iosevka_22.0.0%2Bds-1_all.deb][downloadable]] as a .deb. /Source Code
+Pro/ is another option. /Noto Mono/ would be nice, if it had /italics/.
+
+*Variable pitch*
+
+/Ioseveka Aile/ and /Ioseveka Curly/ are quite nice, as is /Cantarell/.
+However, it turns out that I really dislike variable pitch fonts in an
+editor :(
+
+#+begin_src emacs-lisp
+(let ((ht 160)
+      (fix "Iosevka Extended")
+      (var "Cantarell"))
+  (set-face-attribute 'default        nil :font fix :height ht :weight 'medium)
+  (set-face-attribute 'fixed-pitch    nil :font fix :height ht :weight 'medium)
+  (set-face-attribute 'variable-pitch nil :font var :height ht :weight 'medium))
+#+end_src
+
+[[https://github.com/domtronn/all-the-icons.el][*all-the-icons*]]
+
+=M-x all-the-icons-install-fonts RET= must be run manually after =all-the-icons= has
+been istalled (unless there's some way to do that using =use-package=.
+
+#+begin_src emacs-lisp
+(use-package all-the-icons
+  :disabled
+  :demand t
+  :if (display-graphic-p))
+#+end_src
+
+[[https://github.com/jtbm37/all-the-icons-dired][*all-the-icons-dired*]]
+
+#+begin_src emacs-lisp
+(use-package all-the-icons-dired ; pulls in all-the-icons
+  :disabled
+  :demand t
+  :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
+#+end_src
+
+** Miscellaneous
+
+Display line numbers in the gutter in all modes. May be better if they are only
+displayed in programming modes. In which case, use ~~(add-hook 'prog-mode-hook
+'display-line-numbers-mode)~.
+
+#+begin_src emacs-lisp
+(global-display-line-numbers-mode 1)
+#+end_src
+
+Display line and column numbers in the mode line.
+
+#+begin_src emacs-lisp
+(column-number-mode 1)
+(line-number-mode 1)
+#+end_src
+
+Set fill column and display it
+
+#+begin_src emacs-lisp
+(setq-default fill-column 80) ; setq-default sets globally. setq does not
+(global-display-fill-column-indicator-mode t)
+#+end_src
+
+Truncate long lines -- display a continuation character in right-hand gutter.
+
+#+begin_src emacs-lisp
+(setq-default truncate-lines t)
+#+end_src
+
+* Programming
+
+** [[https://www.flycheck.org/][flycheck]]
+
+#+begin_src emacs-lisp
+(use-package flycheck
+  :diminish flycheck-mode
+  :init
+  (global-flycheck-mode))
+#+end_src
+
+** perl
+
+Mostly (all?) takn from [[https://github.com/zakame/.emacs.d/blob/a7e4cd351d62db6387c05e3e60718a3948a04c30/init.el][zakame's github]]
+
+*** [[https://www.emacswiki.org/emacs/CPerlMode][cperl-mode]]
+
+#+begin_src emacs-lisp
+(use-package cperl-mode
+  :mode "\\.\\([pP]\\([Llm]\\|erl\\|sgi\\|od\\)\\|al\\|t\\)\\'"
+  :preface
+  (defalias 'perl-mode 'cperl-mode)
+  :config
+  (cperl-lazy-install)
+  (setq cperl-invalid-face nil
+        cperl-indent-level 4
+        cperl-indent-parens-as-block t
+        cperl-close-paren-offset -4
+        cperl-continued-statement-offset 4
+        cperl-tab-always-indent t
+        cperl-lazy-help-time 2)
+  ;; remove any prefixes (namespaces etc.) from the function name
+  (defvar zakame/cperl-package-re "\\([A-Z_a-z][0-9A-Z_a-z]*::\\)+")
+  (defun zakame/which-function-trim-package (s)
+    "Trim Perl package namespace from S."
+    (if (and (stringp s)
+             (string-match (concat "\\`\\(?:" zakame/cperl-package-re "\\)") s))
+        (substring s (match-end 0))
+      s))
+  (add-hook 'cperl-mode-hook
+            (lambda ()
+              (advice-add 'which-function :filter-return
+                          #'zakame/which-function-trim-package)))
+  (define-key cperl-mode-map "{" nil)
+  (dolist (face '(cperl-array-face cperl-hash-face))
+    (set-face-attribute face nil
+                        :background 'unspecified))
+  :config
+  (defun xbg/perl-save-and-run ()
+    "run current buffer with perl"
+    (interactive)
+    (save-buffer)
+    (compile (concat "perl " buffer-file-name)))
+  :bind (:map cperl-mode-map
+              ("<f12>" . xbg/perl-save-and-run)
+              ("C-h f" . cperl-perldoc)
+              ("M-<f1>" . cperl-perldoc-at-point)))
+#+end_src
+
+*** [[https://github.com/zakame/perltidy.el][perltidy]]
+
+#+begin_src emacs-lisp
+(use-package perltidy
+  :quelpa (perltidy :fetcher github :repo "zakame/perltidy.el")
+  :after cperl-mode
+  :bind (:map cperl-mode-map
+              ("C-c <tab> r" . perltidy-region)
+              ("C-c <tab> b" . perltidy-buffer)
+              ("C-c <tab> s" . perltidy-subroutine)
+              ("C-c <tab> t" . perltidy-dwim-safe)))
+#+end_src
+
+*** [[https://github.com/realgud/realgud][realgud]]
+
+#+begin_src emacs-lisp
+(use-package realgud
+  :after cperl-mode
+  :bind (:map cperl-mode-map
+              ("C-c C-d" . realgud:perldb)))
+#+end_src
+
+** [[https://github.com/joaotavora/yasnippet][yasnippet]] and [[https://github.com/AndreaCrotti/yasnippet-snippets][yasnippet-snippets]]
+
+#+begin_src emacs-lisp
+(use-package yasnippet
+  :demand t
+  :config
+  (yas-global-mode 1)
+  (use-package yasnippet-snippets))
+#+end_src
+
+* Completion
+
+** [[https://github.com/minad/vertico][vertico]]
+
+Enhances the display of completion candidates and displays them as a
+vertical column in the minibuffer.
+
+#+begin_src emacs-lisp
+(use-package vertico
+  :init
+  (vertico-mode 1)
+  :bind (:map vertico-map
+              ("C-n" . vertico-next)
+              ("C-p" . vertico-previous)))
+#+end_src
+
+** [[https://github.com/minad/marginalia][marginalia]]
+
+Adds annotations to completion candidates in the minibuffer
+
+#+begin_src emacs-lisp
+(use-package marginalia
+  :init
+  (marginalia-mode 1))
+#+end_src
+
+** [[https://github.com/oantolin/orderless][orderless]]
+
+Search for completions using unordered "words". For esample
+
+#+begin_src emacs-lisp
+;; Optional: Enable orderless for more flexible completion styles
+(use-package orderless
+  :init
+  (setq completion-styles '(orderless))
+  (setq completion-category-defaults nil)) ; Needed to avoid some edge cases
+#+end_src
+
+** [[https://github.com/minad/consult][consult]]
+
+A collection of commands that enhance some of Emacs built-in commands.
+
+There's likely going to be more added here
+
+#+begin_src emacs-lisp
+(use-package consult
+  :bind
+  (
+   ("C-x b" . consult-buffer)
+   ("C-g"   . consult-goto-line)
+   ("C-s"   . consult-line)
+   ("C-S-y" . consult-yank-from-kill-ring)
+   ))
+
+#+end_src
+
+* [[https://orgmode.org/org.html][org]]
+
+#+begin_src emacs-lisp
+(setq-default org-hide-emphasis-markers t
+              org-image-actual-width '(300)
+              org-pretty-entities t
+              org-startup-indented t
+              org-startup-with-inline-images t
+              org-use-sub-superscripts "{}")
+
+(setq org-src-preserve-indentation t
+      org-edit-src-content-indentation 0) ; sane indents for org src blocks
+
+(use-package org
+  :ensure nil)
+#+end_src
+
+** [[https://github.com/minad/org-modern][org-modern]]
+
+#+begin_src emacs-lisp
+(use-package org-modern
+  :hook
+  (org-mode . global-org-modern-mode)
+  :custom
+  (org-modern-keyword t)
+  (org-modern-table t))
+#+end_src
+
+** [[https://orgmode.org/manual/Structure-Templates.html][org-tempo]]
+
+#+begin_src emacs-lisp
+(use-package org-tempo
+  :ensure nil
+  :demand t
+  :config
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp")))
+#+end_src
+
+* TODO Lots of things to do
+
+- check for out-of-date init.el(c) vs init.org
+- maximized at startup (from spacemacs)
+- undecorated at startup (from spacemacs)
+- colored parentheses - rainbow-delimeters
+- colored color names - rainbow
+- shell-script mode
+- JSON mode
+- markdown mode
+- Makefiles
+- magit
+- recentf
+- embark?
+- flycheck
+  - proselint (homebrew)
+- org-toc (sp?)
+- full screen! (or, at least, a bit bigger)
+- custom.el stored somewhere
+- *~ stored somewhere
+
+** [[https://github.com/emacsfodder/move-text/][move-text]]
+
+Move single lines, or region, up and down using =M-<up>= and =M-<down>.=
+Re-indents region after move.
+
+#+begin_src emacs-lisp
+(use-package move-text
+  :demand t
+  :config
+  (move-text-default-bindings)
+  ;; from move-text repo:
+  (defun indent-region-advice (&rest ignored)
+    (let ((deactivate deactivate-mark))
+      (if (region-active-p)
+          (indent-region (region-beginning) (region-end))
+        (indent-region (line-beginning-position) (line-end-position)))
+      (setq deactivate-mark deactivate)))
+
+  (advice-add 'move-text-up :after 'indent-region-advice)
+  (advice-add 'move-text-down :after 'indent-region-advice))
+#+end_src
+
+** which-key
+
+#+begin_src emacs-lisp
+(use-package which-key
+  :ensure nil
+  :demand t
+  :config
+  (which-key-mode t))
+#+end_src
+
+** tabs
+
+#+begin_src emacs-lisp
+(setq-default indent-tabs-mode nil
+              tab-width 4)
+#+end_src
+
+** [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Useless-Whitespace.html][delete-trailing-whitespace]]
+
+Delete whitespace at end-of-line and excess newlines at bottom-of-file when
+saving.
+
+#+begin_src emacs-lisp
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+end_src
+
+** [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html][savehist]]
+
+Save minibuffer history
+
+#+begin_src emacs-lisp
+(use-package savehist
+  :init
+  (savehist-mode 1))
+#+end_src
+
+** [[https://github.com/Wilfred/helpful][helpful]]
+
+Provides prettier, and more helpful replacements for ~describe-function~,
+~describe-key~, and ~describe-variable~.
+
+#+begin_src emacs-lisp
+(use-package helpful
+  :bind
+  ;; Note that the built-in `describe-function' includes both functions and
+  ;; macros. `helpful-function' is functions only, so we provide
+  ;; `helpful-callable' as a drop-in replacement.
+  (("C-h f" . #'helpful-callable)
+   ("C-h v" . #'helpful-variable)
+   ("C-h k" . #'helpful-key)
+   ("C-h S" . #'helpful-command)))
+#+end_src
+
+** [[https://magit.vc/][magit]]
+
+This is prot's magit setup.
+
+#+begin_src emacs-lisp
+(use-package magit
+  :bind ("C-c g" . magit-status)
+  :init
+  (setq magit-define-global-key-bindings nil)
+  (setq magit-section-visibility-indicator '("⮧"))
+  :config
+  (setq git-commit-summary-max-length 50)
+  (setq git-commit-style-convention-checks '(non-empty-second-line))
+  (setq magit-diff-refine-hunk t))
+#+end_src
+
+** [[https://github.com/alphapapa/magit-todos][magit-todos]]
+
+Adds lists of =TODO=, =FIXME= and =MAYBE= (and possibly others?) items to
+~magit-status~ page.
+
+#+begin_src emacs-lisp
+(use-package magit-todos
+  :demand t
+  :after magit
+  :config
+  (magit-todos-mode 1))
+#+end_src
+
+** [[https://github.com/Fanael/rainbow-delimiters/][rainbow-delimiters]]
+
+Highlights matching pairs of parentheses, brackets, and braces according
+to their depth. Each successive level is highlighted in a different
+colour.
+
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+** [[https://www.gnu.org/software/emacs/manual/html_node/autotype/Hippie-Expand.html][hippie-exp]]
+
+Provides a variety of completions and expansions. Called repeatedly, it
+tries all possible completions in succession.
+
+@jwiegley / @zakame
+
+#+begin_src emacs-lisp
+(use-package hippie-exp
+  :bind (("M-/"   . hippie-expand)
+         ) ;; ("C-M-/" . dabbrev-completion))
+  :custom
+  (hippie-expand-try-functions-list
+   '(try-expand-dabbrev
+     try-expand-dabbrev-all-buffers
+     try-expand-dabbrev-from-kill
+     try-complete-file-name-partially
+     try-complete-file-name
+     try-expand-all-abbrevs
+     try-expand-list
+     try-expand-line
+     try-complete-lisp-symbol-partially
+     try-complete-lisp-symbol)))
+#+end_src
+
+** [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Dynamic-Abbrevs.html][dabbrev]]
+
+@jwiegley
+
+#+begin_src emacs-lisp
+(use-package dabbrev
+  :bind ("C-M-/" . dabbrev-expand)
+  :custom
+  (dabbrev-case-fold-search nil)
+  (dabbrev-case-replace nil)
+  (dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
+#+end_src
+
+** hl-line
+
+Highlights the current line.
+
+#+begin_src emacs-lisp
+(use-package hl-line
+  :demand t
+  :config
+  (global-hl-line-mode t))
+#+end_src
+
+** tab bar [very TODO]
+
+[[https://new.reddit.com/r/emacs/comments/1dj3y1e/release_101_vimtabbarel_make_the_emacs_tabbar/][reddit post]]
+
+#+begin_src emacs-lisp
+(use-package vim-tab-bar
+  :disabled
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'vim-tab-bar-mode))
+#+end_src
+
+* Local variables :noexport:
+# local variables:
+# fill-column: 72
+# end:
