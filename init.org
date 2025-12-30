@@ -208,7 +208,8 @@ install the font after you used this function.
   :init
   (mapc #'disable-theme custom-enabled-themes) ;; Disable all other themes
   :config
-  (ef-themes-select 'ef-dark))
+  ; (ef-themes-select 'ef-dark))
+  (load-theme 'ef-dark t))
 #+end_src
 
 ** Fonts
