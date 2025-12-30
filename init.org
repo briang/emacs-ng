@@ -188,6 +188,9 @@ Fonts Mono for you. Note that for Windows you’ll need to manually
 install the font after you used this function.
 #+end_quote
 
+Just use ~M-x nerd-icons-install-fonts~ as suggested in the second para
+above. It sets ~nerd-icons-font-family~ automatically.
+
 #+begin_src emacs-lisp
 (use-package doom-modeline
   :ensure t
