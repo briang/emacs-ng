@@ -226,7 +226,8 @@ editor :(
 
 #+begin_src emacs-lisp
 (let ((ht 160)
-      (fix "Iosevka Extended")
+      ; (fix "Iosevka Extended")
+      (fix "DejaVu Sans Mono")
       (var "Cantarell"))
   (set-face-attribute 'default        nil :font fix :height ht :weight 'medium)
   (set-face-attribute 'fixed-pitch    nil :font fix :height ht :weight 'medium)
