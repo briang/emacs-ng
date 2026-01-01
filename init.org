@@ -211,7 +211,6 @@ above. It sets ~nerd-icons-font-family~ automatically.
   :init
   (mapc #'disable-theme custom-enabled-themes) ;; Disable all other themes
   :config
-  ; (ef-themes-select 'ef-dark))
   (load-theme 'ef-dark t))
 #+end_src
 
