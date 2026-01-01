@@ -29,7 +29,7 @@ TODO: where did this code come from (jw?). See also bedrock.
 
 [[https://www.youtube.com/watch?v=uC6s-2qBXdU][Maximize the frame on startup]]
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle early-init.el
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 #+end_src
 
