@@ -10,6 +10,15 @@ purpose of ~early-init.el~.
 ;; MADE TO THIS FILE WILL BE LOST
 #+end_src
 
+[[https://www.reddit.com/r/emacs/comments/1j0m18u/emacs_flashing_white_at_startup/][Stop the screen flashing white on startup]]
+
+#+begin_src emacs-lisp :tangle early-init.el
+(setq default-frame-alist
+      '((background-color . "#000000")
+        (ns-appearance . dark)
+        (ns-transparent-titlebar . t)))
+#+end_src
+
 TODO: where did this code come from (jw?). See also bedrock.
 
 #+begin_src emacs-lisp :tangle early-init.el
