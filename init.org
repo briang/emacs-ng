@@ -133,6 +133,10 @@ With negative N, comment out original line and use the absolute value."
   ; ("C-<prior>" . previous-buffer)
   ; ("C-<next>"  . next-buffer)
 )
+
+; The following don't work if included in above `use-package emacs`
+(global-unset-key (kbd "<insert>"))       ; Cancel overwrite-mode
+(global-unset-key (kbd "<insertchar>"))   ; Cancel overwrite-mode
 #+end_src
 
 * Annoyances
