@@ -1,0 +1,8 @@
+#!/bin/bash
+
+files="init.el early-init.el"
+
+for f in $files ; do
+    echo "cp $f.save $f"
+    # cp "$f.save" "$f"
+done
