@@ -1,0 +1,53 @@
+#!/usr/bin/env perl
+
+#:TAGS:
+
+use v5.36;
+use autodie ':all';
+use utf8;
+use open ':std', ':encoding(UTF-8)';
+
+use Data::Dump; # FIXME
+################################################################################
+my $OPT='/opt';
+
+chdir $OPT or die qq(cannot chdir to "$OPT");
+
+my $emacs;
+my $link = '';
+my @emacs = <"emacs*">;
+if (-l $emacs[0]) {
+    $emacs = shift @emacs;
+    die qq("$emacs" is a link but isn't "emacs"\n)
+        if $emacs ne 'emacs';
+    ($link = readlink $emacs) =~ s/[\/]$//;
+}
+else {
+    for (@emacs) {
+        die qq("$_" is a symlink\n) if -l;
+        die qq(don't understand "$_"\n) unless /^emacs-[\d.-]+$/;
+    }
+}
+
+if ($emacs) { say "$emacs is currenty symlinked to $link" }
+else        { say "emacs is currently unlinked" }
+
+say "\nOptions for emacs:";
+for (0..$#emacs) {
+    say "    $_ $emacs[$_]",
+        ($emacs[$_] eq $link) ? ' (current)' : '';
+}
+
+print "\nChoose an emacs to use (0-$#emacs) ? ";
+chomp (my $choice = <>);
+
+if ($choice eq '' or $choice =~ /\D/ or $choice > $#emacs) {
+    say "\nNo change";
+    exit;
+}
+$choice = $emacs[$choice];
+
+unlink 'emacs' if -e 'emacs';
+symlink $choice, 'emacs';
+
+say "\nemacs symlinked to $choice";
