@@ -231,8 +231,12 @@ above. It sets ~nerd-icons-font-family~ automatically.
 
 *Fixed pitch*
 
-/Iosevka Extended/ is a nice font, [[https://phd-sid.ethz.ch/debian/fonts-iosevka/fonts-iosevka_22.0.0%2Bds-1_all.deb][downloadable]] as a .deb. /Source Code
-Pro/ is another option. /Noto Mono/ would be nice, if it had /italics/.
+/Iosevka Extended/ (see next para) is a nice font, [[https://phd-sid.ethz.ch/debian/fonts-iosevka/fonts-iosevka_22.0.0%2Bds-1_all.deb][downloadable]] as a .deb.
+/Source Code Pro/ is another option. /Noto Mono/ would be nice, if it had
+/italics/.
+
+Nerd fonts can also be used. There's a huge selection at [[https://www.nerdfonts.com/][Nerd Fonts]],
+including Iosevka.
 
 *Variable pitch*
 
