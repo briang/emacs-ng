@@ -1,0 +1,32 @@
+# -*- mode: snippet -*-
+# name: new Emacs Lisp file
+# key: .el
+# contributor: briang
+# --
+;;; ${1:`(setq fnnd (file-name-nondirectory (buffer-file-name))) fnnd`} --- ${2:abstract} -*- lexical-binding: t -*-
+
+;; Copyright (C) 2026 briang@cpan.org
+
+;; Author: briang <briang@cpan.org>
+;; Homepage: ${3:https/github.com/briang/`(file-name-sans-extension fnnd)`}
+;; Version: $4
+;; Date: ${5:`(format-time-string "%F")`}
+;; Keywords: $6
+;; Package-Requires: ((emacs "${7:30.0}") $8)
+
+;; This file is not part of GNU Emacs.
+
+;;; License:
+
+;; Please see the LICENCE file contained within this repository
+
+;;; Commentary:
+
+;; $9
+
+;;; Code:
+
+$0
+
+(provide '`(file-name-sans-extension fnnd)`)
+;;; `fnnd` ends here
