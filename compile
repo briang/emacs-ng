@@ -61,7 +61,8 @@ configure_opts+=" --without-gconf"
 
 ./configure $configure_opts CFLAGS="-g -O2"
 
-make -j5 && make install prefix=$TEMP_INSTALL_DIR -j5
+NPROC=$(nproc) || NPROC=2
+make -j$NPROC && make install prefix=$TEMP_INSTALL_DIR -j$NPROC
 
 EMACS_VERSION=$(grep PACKAGE_VERSION "$LOCAL_EMACS/src/config.h" | \
                 sed -e 's/[^"]*"//' -e 's/"//')
