@@ -61,6 +61,11 @@ configure_opts+=" --without-gconf"
 
 make -j5 && make install prefix=$TEMP_INSTALL_DIR -j5
 
+EMACS_VERSION=$(grep PACKAGE_VERSION "$LOCAL_EMACS/src/config.h" | \
+                sed -e 's/[^"]*"//' -e 's/"//')
+YYYYMMDD=$(date +%Y%m%d)
+mv $TEMP_INSTALL_DIR "$TEMP_INSTALL_DIR-${EMACS_VERSION}_$YYYYMMDD"
+
 printf "\n\n\n"
 echo "your files are in $TEMP_FILES_DIR,"
 echo "ready to be copied into $INSTALL_DIR"
