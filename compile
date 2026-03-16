@@ -5,6 +5,19 @@ set -o pipefail # trap pipe fails
 set -o nounset  # trap unset vars
 # set -o xtrace
 ################################################################################
+
+# Quick instructions
+#
+# 1. Ensure emacs source is in `$LOCAL_EMACS` (`/tmp/emacs`). Possibly, this
+#    might be done using `cp -a /gits/emacs /tmp`
+#
+# 2. run `./compile`
+#
+# This will leave emacs files in `$TEMP_FILES_DIR` (`/tmp/emacs-files`) with
+# their final location expected to be `$INSTALL_DIR` (`/opt/emacs`)
+#
+# 3. `cp -a /tmp/emacs-files /`
+
 EMACS_REPO="git://git.savannah.gnu.org/emacs.git"
 LOCAL_EMACS="/tmp/emacs"
 EMACS_GIT="$HOME/gits/emacs"
