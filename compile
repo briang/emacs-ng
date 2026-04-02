@@ -27,8 +27,13 @@ INSTALL_DIR="/opt/emacs"
 TEMP_FILES_DIR="/tmp/emacs-files"
 TEMP_INSTALL_DIR="$TEMP_FILES_DIR$INSTALL_DIR"
 
+if [[ ! -d "$LOCAL_EMACS" ]] ; then
+    echo "\"$LOCAL_EMACS\" doesn't exist"
+    exit 1
+fi
+
 if [[ -d "$TEMP_INSTALL_DIR" ]] ; then
-    rm -rf "$TEMP_INSTALL_DIR";
+    rm -rf "$TEMP_INSTALL_DIR"
 fi
 
 mkdir -p "$TEMP_INSTALL_DIR"
