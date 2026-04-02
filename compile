@@ -8,7 +8,7 @@ set -o nounset  # trap unset vars
 
 # Quick instructions
 #
-# 1. Ensure emacs source is in `$LOCAL_EMACS` (`/tmp/emacs`). Possibly, this
+# 1. Ensure emacs source is in `$EMACS_SOURCE` (`/tmp/emacs`). Possibly, this
 #    might be done using `cp -a /gits/emacs /tmp`
 #
 # 2. run `./compile`
@@ -21,14 +21,14 @@ set -o nounset  # trap unset vars
 # 4. `cd /opt && ln -s emacs-VERSION_DATE emacs`
 
 EMACS_REPO="git://git.savannah.gnu.org/emacs.git"
-LOCAL_EMACS="/tmp/emacs"
+EMACS_SOURCE="/tmp/emacs"
 EMACS_GIT="$HOME/gits/emacs"
 INSTALL_DIR="/opt/emacs"
 TEMP_FILES_DIR="/tmp/emacs-files"
 TEMP_INSTALL_DIR="$TEMP_FILES_DIR$INSTALL_DIR"
 
-if [[ ! -d "$LOCAL_EMACS" ]] ; then
-    echo "\"$LOCAL_EMACS\" doesn't exist"
+if [[ ! -d "$EMACS_SOURCE" ]] ; then
+    echo "\"$EMACS_SOURCE\" doesn't exist"
     exit 1
 fi
 
@@ -39,14 +39,14 @@ fi
 mkdir -p "$TEMP_INSTALL_DIR"
 
 # if false ; then
-#     git clone "$EMACS_REPO" --depth=1 "$LOCAL_EMACS"
+#     git clone "$EMACS_REPO" --depth=1 "$EMACS_SOURCE"
 # else
-#     [[ -e "$LOCAL_EMACS" ]] && rm -rf "$LOCAL_EMACS"
-#     mkdir -p "$LOCAL_EMACS"
-#     cp -a "$EMACS_GIT/" "$LOCAL_EMACS/.."
+#     [[ -e "$EMACS_SOURCE" ]] && rm -rf "$EMACS_SOURCE"
+#     mkdir -p "$EMACS_SOURCE"
+#     cp -a "$EMACS_GIT/" "$EMACS_SOURCE/.."
 # fi
 
-cd "$LOCAL_EMACS"
+cd "$EMACS_SOURCE"
 
 ./autogen.sh
 
@@ -69,7 +69,7 @@ configure_opts+=" --without-gconf"
 NPROC=$(nproc) || NPROC=2
 make -j$NPROC && make install prefix=$TEMP_INSTALL_DIR -j$NPROC
 
-EMACS_VERSION=$(grep PACKAGE_VERSION "$LOCAL_EMACS/src/config.h" | \
+EMACS_VERSION=$(grep PACKAGE_VERSION "$EMACS_SOURCE/src/config.h" | \
                 sed -e 's/[^"]*"//' -e 's/"//')
 YYYYMMDD=$(date +%Y%m%d)
 mv $TEMP_INSTALL_DIR "$TEMP_INSTALL_DIR-${EMACS_VERSION}_$YYYYMMDD"
