@@ -3,8 +3,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("d2c76098def8b2b10b45d2092c86ca9c8b95d58fabbc8850d28899181d8f6581" default)))
+ '(package-selected-packages
+   '(all-the-icons-nerd-fonts centaur-tabs cider consult doom-modeline ef-themes
+                              flycheck gdscript-mode gdscript-mode.el helpful
+                              magit-todos marginalia markdown-mode move-text
+                              no-littering orderless org-modern perltidy
+                              quelpa-use-package rainbow-delimiters realgud
+                              treesit-auto vertico yaml-mode yasnippet-snippets)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
