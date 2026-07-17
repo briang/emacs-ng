@@ -400,6 +400,8 @@ Mostly (all?) takn from [[https://github.com/zakame/.emacs.d/blob/a7e4cd351d62db
 
 ** [[https://github.com/joaotavora/yasnippet][yasnippet]] and [[https://github.com/AndreaCrotti/yasnippet-snippets][yasnippet-snippets]]
 
+Local snippets are stored ~etc/yasnippet/~
+
 #+begin_src emacs-lisp
 (use-package yasnippet
   :demand t
