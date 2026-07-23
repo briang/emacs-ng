@@ -8,8 +8,9 @@
                               flycheck gdscript-mode gdscript-mode.el helpful
                               magit-todos marginalia markdown-mode move-text
                               no-littering orderless org-modern perltidy
-                              quelpa-use-package rainbow-delimiters realgud
-                              treesit-auto vertico yaml-mode yasnippet-snippets)))
+                              quelpa-use-package rainbow-delimiters raku-mode
+                              realgud treesit-auto vertico yaml-mode
+                              yasnippet-snippets)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
