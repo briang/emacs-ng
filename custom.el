@@ -4,13 +4,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(all-the-icons-nerd-fonts centaur-tabs cider cmake-mode consult doom-modeline
-                              ef-themes flycheck gdscript-mode gdscript-mode.el
-                              helpful magit-todos marginalia markdown-mode
-                              move-text no-littering orderless org-modern
-                              perltidy quelpa-use-package rainbow-delimiters
-                              raku-mode realgud treesit-auto vertico yaml-mode
-                              yasnippet-snippets)))
+   '(all-the-icons-nerd-fonts centaur-tabs cider cmake-mode consult cperl-mode
+                              doom-modeline ef-themes flycheck gdscript-mode
+                              gdscript-mode.el helpful magit-todos marginalia
+                              markdown-mode move-text no-littering orderless
+                              org-modern perltidy quelpa-use-package
+                              rainbow-delimiters raku-mode realgud treesit-auto
+                              vertico yaml-mode yasnippet-snippets)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
