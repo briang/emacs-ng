@@ -16,7 +16,7 @@ set -o nounset  # trap unset vars
 # This will leave emacs files in `$TEMP_FILES_DIR` (`/tmp/emacs-files`) with
 # their final location expected to be `$INSTALL_DIR` (`/opt/emacs-VERSION_DATE`)
 #
-# 3. `cp -a /tmp/emacs-files /`
+# 3. `cp -a /tmp/emacs-files /` # sudo not needed
 #
 # 4. `cd /opt && ln -s emacs-VERSION_DATE emacs`
 
