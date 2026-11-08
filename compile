@@ -9,7 +9,7 @@ set -o nounset  # trap unset vars
 # Quick instructions
 #
 # 1. Ensure emacs source is in `$EMACS_SOURCE` (`/tmp/emacs`). Possibly, this
-#    might be done using `cp -a /gits/emacs /tmp`
+#    might be done using `mkdir /tmp/emacs/ ; cp -a /gits/emacs/* /tmp/emacs/`
 #
 # 2. run `./compile`
 #
